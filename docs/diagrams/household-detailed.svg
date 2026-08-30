@@ -1,0 +1,267 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="30 -30 1580 1600" width="1580" height="1600" font-family="ui-sans-serif, system-ui, sans-serif">
+<rect x="30" y="-30" width="1580" height="1600" fill="#ffffff"/>
+<defs>
+<marker id="ah-money" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1a7f4b"/></marker>
+<marker id="ah-material" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b25e00"/></marker>
+<marker id="ah-energy" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b3261e"/></marker>
+<marker id="ah-information" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f5fa8"/></marker>
+<marker id="ah-default" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker>
+</defs>
+<text x="54" y="16" font-size="30" font-weight="700" fill="#111">Household Budget — Detailed</text>
+<line x1="137.7" y1="122.7" x2="377.4" y2="431.0" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="143.4" y1="116.7" x2="370.1" y2="278.6" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="148.6" y1="243.1" x2="643.4" y2="296.1" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="655.0" y1="314.3" x2="432.0" y2="441.7" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="400.0" y1="431.2" x2="400.0" y2="96.8" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="400.0" y1="431.2" x2="400.0" y2="216.8" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="406.2" y1="1291.9" x2="672.0" y2="95.9" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="680" y1="60" x2="539.1" y2="693.9" stroke="#777" stroke-width="1.2" stroke-dasharray="1 5" opacity="0.75"/>
+<line x1="708.8" y1="60.0" x2="923.2" y2="60.0" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="427.3" y1="450.9" x2="1205.1" y2="191.6" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="406.9" y1="1292.0" x2="671.2" y2="215.7" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="680" y1="180" x2="539.0" y2="753.9" stroke="#777" stroke-width="1.2" stroke-dasharray="1 5" opacity="0.75"/>
+<line x1="706.5" y1="168.7" x2="926.2" y2="74.5" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="427.3" y1="450.9" x2="1205.1" y2="191.6" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="426.0" y1="447.6" x2="1206.8" y2="75.8" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="428.3" y1="454.6" x2="1203.8" y2="306.9" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="428.8" y1="458.6" x2="1203.2" y2="421.8" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="425.0" y1="474.3" x2="648.0" y2="601.7" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="148.8" y1="620.0" x2="643.2" y2="620.0" stroke="#b25e00" stroke-width="2.2" stroke-dasharray="7 4" marker-end="url(#ah-material)" opacity="0.85"/>
+<line x1="708.8" y1="620.0" x2="923.2" y2="620.0" stroke="#b25e00" stroke-width="2.2" stroke-dasharray="7 4" marker-end="url(#ah-material)" opacity="0.85"/>
+<line x1="708.8" y1="620.0" x2="1203.2" y2="620.0" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="988.6" y1="623.6" x2="1483.5" y2="685.4" stroke="#b25e00" stroke-width="2.2" stroke-dasharray="7 4" marker-end="url(#ah-material)" opacity="0.85"/>
+<line x1="419.7" y1="481.1" x2="654.9" y2="733.1" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="148.8" y1="760.0" x2="643.2" y2="760.0" stroke="#b25e00" stroke-width="2.2" stroke-dasharray="7 4" marker-end="url(#ah-material)" opacity="0.85"/>
+<line x1="708.8" y1="760.0" x2="923.2" y2="760.0" stroke="#b25e00" stroke-width="2.2" stroke-dasharray="7 4" marker-end="url(#ah-material)" opacity="0.85"/>
+<line x1="708.8" y1="760.0" x2="1203.2" y2="760.0" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="988.6" y1="756.4" x2="1483.5" y2="694.6" stroke="#b25e00" stroke-width="2.2" stroke-dasharray="7 4" marker-end="url(#ah-material)" opacity="0.85"/>
+<line x1="415.5" y1="484.3" x2="660.2" y2="869.0" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="148.8" y1="900.0" x2="643.2" y2="900.0" stroke="#b3261e" stroke-width="2.2" stroke-dasharray="2 4" marker-end="url(#ah-energy)" opacity="0.85"/>
+<line x1="708.6" y1="903.4" x2="1483.5" y2="995.6" stroke="#b3261e" stroke-width="2.2" stroke-dasharray="2 4" marker-end="url(#ah-energy)" opacity="0.85"/>
+<line x1="708.8" y1="900.0" x2="1203.2" y2="900.0" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="412.5" y1="485.9" x2="664.0" y2="1006.9" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="148.8" y1="1040.0" x2="643.2" y2="1040.0" stroke="#b3261e" stroke-width="2.2" stroke-dasharray="2 4" marker-end="url(#ah-energy)" opacity="0.85"/>
+<line x1="708.8" y1="1040.0" x2="923.2" y2="1040.0" stroke="#b3261e" stroke-width="2.2" stroke-dasharray="2 4" marker-end="url(#ah-energy)" opacity="0.85"/>
+<line x1="708.8" y1="1040.0" x2="1203.2" y2="1040.0" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="988.7" y1="1037.9" x2="1483.3" y2="1002.6" stroke="#b3261e" stroke-width="2.2" stroke-dasharray="2 4" marker-end="url(#ah-energy)" opacity="0.85"/>
+<line x1="410.4" y1="486.8" x2="666.7" y2="1145.7" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="148.8" y1="1180.0" x2="643.2" y2="1180.0" stroke="#b3261e" stroke-width="2.2" stroke-dasharray="2 4" marker-end="url(#ah-energy)" opacity="0.85"/>
+<line x1="708.2" y1="1174.0" x2="1484.0" y2="1007.7" stroke="#b3261e" stroke-width="2.2" stroke-dasharray="2 4" marker-end="url(#ah-energy)" opacity="0.85"/>
+<line x1="708.8" y1="1180.0" x2="1203.2" y2="1180.0" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="988.8" y1="340.0" x2="1483.2" y2="340.0" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<line x1="987.0" y1="490.1" x2="1485.5" y2="677.1" stroke="#b25e00" stroke-width="2.2" stroke-dasharray="7 4" marker-end="url(#ah-material)" opacity="0.85"/>
+<line x1="987.9" y1="207.0" x2="1484.3" y2="331.1" stroke="#1a7f4b" stroke-width="2.2" marker-end="url(#ah-money)" opacity="0.85"/>
+<g transform="translate(80,60) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M25,60 Q15,60 15,50 Q15,35 30,35 Q35,20 50,20 Q65,20 70,35 Q85,35 85,50 Q85,60 75,60 L25,60 Z"/></g>
+</g>
+<text x="120" y="158" font-size="12.5" text-anchor="middle" fill="#222">Employer</text>
+<text x="120" y="53" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">source</text>
+<g transform="translate(80,200) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M25,60 Q15,60 15,50 Q15,35 30,35 Q35,20 50,20 Q65,20 70,35 Q85,35 85,50 Q85,60 75,60 L25,60 Z"/></g>
+</g>
+<text x="120" y="298" font-size="12.5" text-anchor="middle" fill="#222">Tenant (rent)</text>
+<text x="120" y="193" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">source</text>
+<g transform="translate(80,580) scale(0.8)">
+<g fill="#ffffff" stroke="#b25e00" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M25,60 Q15,60 15,50 Q15,35 30,35 Q35,20 50,20 Q65,20 70,35 Q85,35 85,50 Q85,60 75,60 L25,60 Z"/></g>
+</g>
+<text x="120" y="678" font-size="12.5" text-anchor="middle" fill="#222">Supermarket</text>
+<text x="120" y="573" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">source</text>
+<g transform="translate(80,720) scale(0.8)">
+<g fill="#ffffff" stroke="#b25e00" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M25,60 Q15,60 15,50 Q15,35 30,35 Q35,20 50,20 Q65,20 70,35 Q85,35 85,50 Q85,60 75,60 L25,60 Z"/></g>
+</g>
+<text x="120" y="818" font-size="12.5" text-anchor="middle" fill="#222">Pharmacy</text>
+<text x="120" y="713" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">source</text>
+<g transform="translate(80,860) scale(0.8)">
+<g fill="#ffffff" stroke="#b3261e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M25,60 Q15,60 15,50 Q15,35 30,35 Q35,20 50,20 Q65,20 70,35 Q85,35 85,50 Q85,60 75,60 L25,60 Z"/></g>
+</g>
+<text x="120" y="958" font-size="12.5" text-anchor="middle" fill="#222">Electricity</text>
+<text x="120" y="972" font-size="12.5" text-anchor="middle" fill="#222">retailer</text>
+<text x="120" y="853" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">source</text>
+<g transform="translate(80,1000) scale(0.8)">
+<g fill="#ffffff" stroke="#b3261e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M25,60 Q15,60 15,50 Q15,35 30,35 Q35,20 50,20 Q65,20 70,35 Q85,35 85,50 Q85,60 75,60 L25,60 Z"/></g>
+</g>
+<text x="120" y="1098" font-size="12.5" text-anchor="middle" fill="#222">Fuel retailer</text>
+<text x="120" y="993" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">source</text>
+<g transform="translate(80,1140) scale(0.8)">
+<g fill="#ffffff" stroke="#b3261e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M25,60 Q15,60 15,50 Q15,35 30,35 Q35,20 50,20 Q65,20 70,35 Q85,35 85,50 Q85,60 75,60 L25,60 Z"/></g>
+</g>
+<text x="120" y="1238" font-size="12.5" text-anchor="middle" fill="#222">Rail operator</text>
+<text x="120" y="1133" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">source</text>
+<g transform="translate(360,20) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30,20 L70,20 Q80,20 80,30 L80,70 Q80,80 70,80 L30,80 Q20,80 20,70 L20,30 Q20,20 30,20 Z"/></g>
+</g>
+<text x="400" y="118" font-size="12.5" text-anchor="middle" fill="#222">Savings (goals)</text>
+<text x="400" y="13" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">storage</text>
+<g transform="translate(360,140) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30,20 L70,20 Q80,20 80,30 L80,70 Q80,80 70,80 L30,80 Q20,80 20,70 L20,30 Q20,20 30,20 Z"/></g>
+</g>
+<text x="400" y="238" font-size="12.5" text-anchor="middle" fill="#222">Offset account</text>
+<text x="400" y="133" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">storage</text>
+<g transform="translate(360,260) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30,20 L70,20 Q80,20 80,30 L80,70 Q80,80 70,80 L30,80 Q20,80 20,70 L20,30 Q20,20 30,20 Z"/></g>
+</g>
+<text x="400" y="358" font-size="12.5" text-anchor="middle" fill="#222">Superannuation</text>
+<text x="400" y="253" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">storage</text>
+<g transform="translate(360,420) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30,20 L70,20 Q80,20 80,30 L80,70 Q80,80 70,80 L30,80 Q20,80 20,70 L20,30 Q20,20 30,20 Z"/></g>
+</g>
+<text x="400" y="518" font-size="12.5" text-anchor="middle" fill="#222">Everyday account</text>
+<text x="400" y="413" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">storage</text>
+<g transform="translate(360,1280) scale(0.8)">
+<g fill="#f2f2f2" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><rect x="30" y="30" width="40" height="40" transform="rotate(45 50 50)"/></g>
+</g>
+<text x="400" y="1378" font-size="12.5" text-anchor="middle" fill="#222">1.0</text>
+<text x="400" y="1273" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">constant</text>
+<g transform="translate(640,20) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30,20 L70,20 Q80,20 80,30 L80,70 Q80,80 70,80 L30,80 Q20,80 20,70 L20,30 Q20,20 30,20 Z"/></g>
+</g>
+<text x="680" y="118" font-size="12.5" text-anchor="middle" fill="#222">Mortgage principal</text>
+<text x="680" y="13" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">storage</text>
+<g transform="translate(640,140) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30,20 L70,20 Q80,20 80,30 L80,70 Q80,80 70,80 L30,80 Q20,80 20,70 L20,30 Q20,20 30,20 Z"/></g>
+</g>
+<text x="680" y="238" font-size="12.5" text-anchor="middle" fill="#222">Credit card</text>
+<text x="680" y="133" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">storage</text>
+<g transform="translate(640,260) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><circle cx="50" cy="50" r="22"/><line x1="35" y1="35" x2="65" y2="65"/><line x1="65" y1="35" x2="35" y2="65"/></g>
+</g>
+<text x="680" y="358" font-size="12.5" text-anchor="middle" fill="#222">Rental yield</text>
+<text x="680" y="253" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">gain</text>
+<g transform="translate(640,580) scale(0.8)">
+<g fill="#ffffff" stroke="#b25e00" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><circle cx="50" cy="50" r="22"/><line x1="35" y1="35" x2="65" y2="65"/><line x1="65" y1="35" x2="35" y2="65"/></g>
+</g>
+<text x="680" y="678" font-size="12.5" text-anchor="middle" fill="#222">Grocery purchase</text>
+<text x="680" y="573" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">exchange</text>
+<g transform="translate(640,720) scale(0.8)">
+<g fill="#ffffff" stroke="#b25e00" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><circle cx="50" cy="50" r="22"/><line x1="35" y1="35" x2="65" y2="65"/><line x1="65" y1="35" x2="35" y2="65"/></g>
+</g>
+<text x="680" y="818" font-size="12.5" text-anchor="middle" fill="#222">Toothpaste</text>
+<text x="680" y="832" font-size="12.5" text-anchor="middle" fill="#222">purchase</text>
+<text x="680" y="713" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">exchange</text>
+<g transform="translate(640,860) scale(0.8)">
+<g fill="#ffffff" stroke="#b3261e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><circle cx="50" cy="50" r="22"/><line x1="35" y1="35" x2="65" y2="65"/><line x1="65" y1="35" x2="35" y2="65"/></g>
+</g>
+<text x="680" y="958" font-size="12.5" text-anchor="middle" fill="#222">Electricity</text>
+<text x="680" y="972" font-size="12.5" text-anchor="middle" fill="#222">purchase</text>
+<text x="680" y="853" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">exchange</text>
+<g transform="translate(640,1000) scale(0.8)">
+<g fill="#ffffff" stroke="#b3261e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><circle cx="50" cy="50" r="22"/><line x1="35" y1="35" x2="65" y2="65"/><line x1="65" y1="35" x2="35" y2="65"/></g>
+</g>
+<text x="680" y="1098" font-size="12.5" text-anchor="middle" fill="#222">Fuel purchase</text>
+<text x="680" y="993" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">exchange</text>
+<g transform="translate(640,1140) scale(0.8)">
+<g fill="#ffffff" stroke="#b3261e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><circle cx="50" cy="50" r="22"/><line x1="35" y1="35" x2="65" y2="65"/><line x1="65" y1="35" x2="35" y2="65"/></g>
+</g>
+<text x="680" y="1238" font-size="12.5" text-anchor="middle" fill="#222">Rail fare</text>
+<text x="680" y="1133" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">exchange</text>
+<g transform="translate(920,20) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><line x1="50" y1="18" x2="50" y2="58"/><path d="M40,48 L50,58 L60,48"/><line x1="30" y1="64" x2="70" y2="64"/><line x1="35" y1="71" x2="65" y2="71"/><line x1="40" y1="78" x2="60" y2="78"/></g>
+</g>
+<text x="960" y="118" font-size="12.5" text-anchor="middle" fill="#222">Principal retired</text>
+<text x="960" y="13" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">sink</text>
+<g transform="translate(920,160) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30,20 L70,20 Q80,20 80,30 L80,70 Q80,80 70,80 L30,80 Q20,80 20,70 L20,30 Q20,20 30,20 Z"/></g>
+</g>
+<text x="960" y="258" font-size="12.5" text-anchor="middle" fill="#222">Rental (book</text>
+<text x="960" y="272" font-size="12.5" text-anchor="middle" fill="#222">value)</text>
+<text x="960" y="153" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">storage</text>
+<g transform="translate(920,300) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30,20 L70,20 Q80,20 80,30 L80,70 Q80,80 70,80 L30,80 Q20,80 20,70 L20,30 Q20,20 30,20 Z"/></g>
+</g>
+<text x="960" y="398" font-size="12.5" text-anchor="middle" fill="#222">Car (book value)</text>
+<text x="960" y="293" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">storage</text>
+<g transform="translate(920,440) scale(0.8)">
+<g fill="#ffffff" stroke="#b25e00" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30,20 L70,20 Q80,20 80,30 L80,70 Q80,80 70,80 L30,80 Q20,80 20,70 L20,30 Q20,20 30,20 Z"/></g>
+</g>
+<text x="960" y="538" font-size="12.5" text-anchor="middle" fill="#222">Car (condition)</text>
+<text x="960" y="433" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">storage</text>
+<g transform="translate(920,580) scale(0.8)">
+<g fill="#ffffff" stroke="#b25e00" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30,20 L70,20 Q80,20 80,30 L80,70 Q80,80 70,80 L30,80 Q20,80 20,70 L20,30 Q20,20 30,20 Z"/></g>
+</g>
+<text x="960" y="678" font-size="12.5" text-anchor="middle" fill="#222">Pantry stock</text>
+<text x="960" y="573" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">storage</text>
+<g transform="translate(920,720) scale(0.8)">
+<g fill="#ffffff" stroke="#b25e00" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30,20 L70,20 Q80,20 80,30 L80,70 Q80,80 70,80 L30,80 Q20,80 20,70 L20,30 Q20,20 30,20 Z"/></g>
+</g>
+<text x="960" y="818" font-size="12.5" text-anchor="middle" fill="#222">Toothpaste stock</text>
+<text x="960" y="713" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">storage</text>
+<g transform="translate(920,1000) scale(0.8)">
+<g fill="#ffffff" stroke="#b3261e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30,20 L70,20 Q80,20 80,30 L80,70 Q80,80 70,80 L30,80 Q20,80 20,70 L20,30 Q20,20 30,20 Z"/></g>
+</g>
+<text x="960" y="1098" font-size="12.5" text-anchor="middle" fill="#222">Fuel tank</text>
+<text x="960" y="993" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">storage</text>
+<g transform="translate(1200,20) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><line x1="50" y1="18" x2="50" y2="58"/><path d="M40,48 L50,58 L60,48"/><line x1="30" y1="64" x2="70" y2="64"/><line x1="35" y1="71" x2="65" y2="71"/><line x1="40" y1="78" x2="60" y2="78"/></g>
+</g>
+<text x="1240" y="118" font-size="12.5" text-anchor="middle" fill="#222">Tax (ATO)</text>
+<text x="1240" y="13" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">sink</text>
+<g transform="translate(1200,140) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><line x1="50" y1="18" x2="50" y2="58"/><path d="M40,48 L50,58 L60,48"/><line x1="30" y1="64" x2="70" y2="64"/><line x1="35" y1="71" x2="65" y2="71"/><line x1="40" y1="78" x2="60" y2="78"/></g>
+</g>
+<text x="1240" y="238" font-size="12.5" text-anchor="middle" fill="#222">Lender</text>
+<text x="1240" y="252" font-size="12.5" text-anchor="middle" fill="#222">(repayments)</text>
+<text x="1240" y="133" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">sink</text>
+<g transform="translate(1200,260) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><line x1="50" y1="18" x2="50" y2="58"/><path d="M40,48 L50,58 L60,48"/><line x1="30" y1="64" x2="70" y2="64"/><line x1="35" y1="71" x2="65" y2="71"/><line x1="40" y1="78" x2="60" y2="78"/></g>
+</g>
+<text x="1240" y="358" font-size="12.5" text-anchor="middle" fill="#222">Insurer (premiums)</text>
+<text x="1240" y="253" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">sink</text>
+<g transform="translate(1200,380) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><line x1="50" y1="18" x2="50" y2="58"/><path d="M40,48 L50,58 L60,48"/><line x1="30" y1="64" x2="70" y2="64"/><line x1="35" y1="71" x2="65" y2="71"/><line x1="40" y1="78" x2="60" y2="78"/></g>
+</g>
+<text x="1240" y="478" font-size="12.5" text-anchor="middle" fill="#222">Bank fees</text>
+<text x="1240" y="373" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">sink</text>
+<g transform="translate(1200,580) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><line x1="50" y1="18" x2="50" y2="58"/><path d="M40,48 L50,58 L60,48"/><line x1="30" y1="64" x2="70" y2="64"/><line x1="35" y1="71" x2="65" y2="71"/><line x1="40" y1="78" x2="60" y2="78"/></g>
+</g>
+<text x="1240" y="678" font-size="12.5" text-anchor="middle" fill="#222">Supermarket</text>
+<text x="1240" y="692" font-size="12.5" text-anchor="middle" fill="#222">revenue</text>
+<text x="1240" y="573" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">sink</text>
+<g transform="translate(1200,720) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><line x1="50" y1="18" x2="50" y2="58"/><path d="M40,48 L50,58 L60,48"/><line x1="30" y1="64" x2="70" y2="64"/><line x1="35" y1="71" x2="65" y2="71"/><line x1="40" y1="78" x2="60" y2="78"/></g>
+</g>
+<text x="1240" y="818" font-size="12.5" text-anchor="middle" fill="#222">Pharmacy revenue</text>
+<text x="1240" y="713" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">sink</text>
+<g transform="translate(1200,860) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><line x1="50" y1="18" x2="50" y2="58"/><path d="M40,48 L50,58 L60,48"/><line x1="30" y1="64" x2="70" y2="64"/><line x1="35" y1="71" x2="65" y2="71"/><line x1="40" y1="78" x2="60" y2="78"/></g>
+</g>
+<text x="1240" y="958" font-size="12.5" text-anchor="middle" fill="#222">Utility revenue</text>
+<text x="1240" y="853" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">sink</text>
+<g transform="translate(1200,1000) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><line x1="50" y1="18" x2="50" y2="58"/><path d="M40,48 L50,58 L60,48"/><line x1="30" y1="64" x2="70" y2="64"/><line x1="35" y1="71" x2="65" y2="71"/><line x1="40" y1="78" x2="60" y2="78"/></g>
+</g>
+<text x="1240" y="1098" font-size="12.5" text-anchor="middle" fill="#222">Fuel retailer</text>
+<text x="1240" y="1112" font-size="12.5" text-anchor="middle" fill="#222">revenue</text>
+<text x="1240" y="993" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">sink</text>
+<g transform="translate(1200,1140) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><line x1="50" y1="18" x2="50" y2="58"/><path d="M40,48 L50,58 L60,48"/><line x1="30" y1="64" x2="70" y2="64"/><line x1="35" y1="71" x2="65" y2="71"/><line x1="40" y1="78" x2="60" y2="78"/></g>
+</g>
+<text x="1240" y="1238" font-size="12.5" text-anchor="middle" fill="#222">Rail revenue</text>
+<text x="1240" y="1133" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">sink</text>
+<g transform="translate(1480,300) scale(0.8)">
+<g fill="#ffffff" stroke="#1a7f4b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><line x1="50" y1="18" x2="50" y2="58"/><path d="M40,48 L50,58 L60,48"/><line x1="30" y1="64" x2="70" y2="64"/><line x1="35" y1="71" x2="65" y2="71"/><line x1="40" y1="78" x2="60" y2="78"/></g>
+</g>
+<text x="1520" y="398" font-size="12.5" text-anchor="middle" fill="#222">Value lost</text>
+<text x="1520" y="293" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">sink</text>
+<g transform="translate(1480,650) scale(0.8)">
+<g fill="#ffffff" stroke="#b25e00" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><line x1="50" y1="18" x2="50" y2="58"/><path d="M40,48 L50,58 L60,48"/><line x1="30" y1="64" x2="70" y2="64"/><line x1="35" y1="71" x2="65" y2="71"/><line x1="40" y1="78" x2="60" y2="78"/></g>
+</g>
+<text x="1520" y="748" font-size="12.5" text-anchor="middle" fill="#222">Consumed</text>
+<text x="1520" y="643" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">sink</text>
+<g transform="translate(1480,960) scale(0.8)">
+<g fill="#ffffff" stroke="#b3261e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><line x1="50" y1="18" x2="50" y2="58"/><path d="M40,48 L50,58 L60,48"/><line x1="30" y1="64" x2="70" y2="64"/><line x1="35" y1="71" x2="65" y2="71"/><line x1="40" y1="78" x2="60" y2="78"/></g>
+</g>
+<text x="1520" y="1058" font-size="12.5" text-anchor="middle" fill="#222">Heat</text>
+<text x="1520" y="953" font-size="10.5" text-anchor="middle" fill="#666" font-style="italic">sink</text>
+<text x="54" y="1482" font-size="13" font-weight="600" fill="#333">Carrier (colour and dash both encode it — REQ-UI-8)</text>
+<line x1="54" y1="1506" x2="100" y2="1506" stroke="#1a7f4b" stroke-width="2.6"/>
+<text x="108" y="1510" font-size="12.5" fill="#333">money</text>
+<line x1="204" y1="1506" x2="250" y2="1506" stroke="#b25e00" stroke-width="2.6" stroke-dasharray="7 4"/>
+<text x="258" y="1510" font-size="12.5" fill="#333">material</text>
+<line x1="354" y1="1506" x2="400" y2="1506" stroke="#b3261e" stroke-width="2.6" stroke-dasharray="2 4"/>
+<text x="408" y="1510" font-size="12.5" fill="#333">energy</text>
+<line x1="504" y1="1506" x2="550" y2="1506" stroke="#777" stroke-width="1.2" stroke-dasharray="1 5"/>
+<text x="558" y="1510" font-size="12.5" fill="#333">control tap (read, not consumed)</text>
+<text x="54" y="1538" font-size="12" fill="#555">Full household budget network. Expenses are exchange-node boundary transactions with named counterparties; terminal nodes are separated into boundary</text>
+<text x="54" y="1554" font-size="12" fill="#555">crossings, transfers, accounting write-downs, material depletion and genuine dissipation.</text>
+</svg>

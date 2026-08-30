@@ -1,0 +1,58 @@
+# REQ-KERN-3: every model the builder produces is validated against the
+# committed copy of gssk.schema.json before it can reach GSSK_Init, so a schema
+# violation is a named test failure here rather than a GSSK_ERR_SCHEMA_VIOLATION
+# inside a worker.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # Unit tests need no install: node strips the types and node:test is built in,
+  # which is REQ-TEST-2's whole point. Running them on a bare checkout keeps that
+  # honest — if a dependency ever creeps in, this job is where it shows up.
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - run: npm run test:unit
+
+  # ADR 1: the shipped validator is hand-written and dependency-free, so nothing
+  # but this differential test proves it faithful to the schema it claims to
+  # enforce. It needs Python and jsonschema, which is why it is its own job and
+  # not part of the unit run.
+  validator-differential:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: budget-system
+      - uses: actions/checkout@v4
+        with:
+          repository: sholtomaud/GSSK
+          ref: v5.0.0
+          path: GSSK
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: budget-system/.node-version
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install jsonschema
+      - run: python3 tools/xcheck-validator.py --gssk ../GSSK
+        working-directory: budget-system
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - run: npm install
+      - run: npm run typecheck

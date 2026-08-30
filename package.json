@@ -1,0 +1,26 @@
+{
+  "name": "gssk-budget",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Household budget modelled as an Odum Energy Systems Language network on the GSSK kernel",
+  "type": "module",
+  "engines": {
+    "node": ">=25.0.0"
+  },
+  "scripts": {
+    "start": "vite --host",
+    "dev": "vite --host",
+    "build": "vite build --base ./",
+    "test": "node --test \"src/**/*.test.ts\"",
+    "test:unit": "node --test \"src/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit",
+    "e2e": "npx playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.0",
+    "@types/node": "^26.1.1",
+    "playwright": "^1.62.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.4"
+  }
+}

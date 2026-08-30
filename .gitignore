@@ -1,0 +1,7 @@
+.crux/
+.DS_Store
+node_modules/
+dist/
+.vite/
+playwright-report/
+test-results/

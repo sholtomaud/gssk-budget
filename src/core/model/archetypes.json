@@ -1,0 +1,273 @@
+{
+  "libraryVersion": 1,
+
+  "_about": [
+    "REQ-MDL-1/1a/2. The fixed built-in archetype library. Definitions live here,",
+    "under source control and covered by golden vectors, never inline in component code.",
+    "",
+    "`archetypes` is a literal GSSK archetypes block: it is spliced into a model",
+    "unchanged and validates against gssk.schema.json. `library` is application",
+    "metadata keyed by the same names and is deliberately OUTSIDE the model, per",
+    "REQ-KERN-2 — the application never smuggles its own keys into model JSON.",
+    "",
+    "expense_category is deliberately absent. It was draft v0.1's single expense",
+    "primitive and it encoded the error §2.1a corrects: an expense is not, in",
+    "general, an edge into a sink."
+  ],
+
+  "_wiring": [
+    "Three kernel facts decide what a template may contain (GSSK v5.0.0, src/gssk.c):",
+    "  - ARCH_EDGE_PARAM_KEYS is {k, threshold}. A template edge names no model node,",
+    "    so it can carry neither control_node nor numerator_node.",
+    "  - ARCH_EDGE_KEYS excludes forcing. A template edge cannot be forced.",
+    "  - Expansion rewrites BOTH endpoints to `{instance}__{member}`, so a template",
+    "    edge cannot reach anything outside its own instance.",
+    "Any edge needing forcing, a control_node, or an external endpoint is therefore",
+    "emitted by the model builder after expansion. `library[name].wiring` is the",
+    "declaration of what the builder owes each instance.",
+    "",
+    "Port order is load-bearing: the kernel takes default_in from the FIRST entry of",
+    "`ports` and default_out from the LAST, by insertion order. It never reads the",
+    "port names."
+  ],
+
+  "carriers": [
+    { "id": "money",       "unit": "AUD",  "conserved": true },
+    { "id": "material",    "unit": "unit", "conserved": true },
+    { "id": "energy",      "unit": "MJ",   "conserved": true },
+    { "id": "information", "unit": "bit",  "conserved": false }
+  ],
+
+  "archetypes": {
+    "account": {
+      "_purpose": "Transaction, savings and offset accounts.",
+      "nodes": [
+        { "id": "balance", "type": "storage", "value": 0, "carrier": "money" }
+      ],
+      "ports": { "in": "balance", "out": "balance" }
+    },
+
+    "income_stream": {
+      "_purpose": "Salary, rent, dividends. `flow` is the builder-emitted outgoing edge, not a member: it must reach an account outside the instance and it must carry forcing, and a template edge can do neither.",
+      "nodes": [
+        { "id": "tap", "type": "source", "value": 0, "carrier": "money" }
+      ],
+      "ports": { "out": "tap" }
+    },
+
+    "purchase_to_stock": {
+      "_purpose": "Groceries, toothpaste, fuel. Transaction diamond whose real leg terminates in a household store named by the instance (REQ-MDL-1a) — the archetype holds no stock of its own, so two items buying into one pantry share it.",
+      "nodes": [
+        { "id": "supplier", "type": "source",   "value": 0, "carrier": "material" },
+        { "id": "deal",     "type": "exchange", "value": 0, "carrier": "material",
+          "params": { "k": 1.0, "price": 0 } },
+        { "id": "revenue",  "type": "sink",     "value": 0, "carrier": "money" }
+      ],
+      "edges": [
+        { "_leg": "goods in — the counterparty supplies the transaction",
+          "id": "goods_in",  "origin": "supplier", "target": "deal",    "carrier": "material" },
+        { "_leg": "money out — payment crosses the boundary into the counterparty's system",
+          "id": "money_out", "origin": "deal",     "target": "revenue", "carrier": "money" }
+      ],
+      "ports": { "in": "deal", "out": "deal" }
+    },
+
+    "purchase_consumed": {
+      "_purpose": "Electricity, rail fares, a haircut. Consumed on receipt, so the real leg terminates in a dissipation sink rather than a store.",
+      "nodes": [
+        { "id": "supplier", "type": "source",   "value": 0, "carrier": "material" },
+        { "id": "deal",     "type": "exchange", "value": 0, "carrier": "material",
+          "params": { "k": 1.0, "price": 0 } },
+        { "id": "revenue",  "type": "sink",     "value": 0, "carrier": "money" },
+        { "id": "heat",     "type": "sink",     "value": 0, "carrier": "material" }
+      ],
+      "edges": [
+        { "_leg": "goods in — the counterparty supplies the transaction",
+          "id": "goods_in",   "origin": "supplier", "target": "deal",    "carrier": "material" },
+        { "_leg": "money out — payment crosses the boundary into the counterparty's system",
+          "id": "money_out",  "origin": "deal",     "target": "revenue", "carrier": "money" },
+        { "_leg": "the real leg, used up on receipt — REQ-FLOW-0: a diamond leg carries no logic and no params, the exchange node computes it",
+          "id": "dissipated", "origin": "deal",     "target": "heat",    "carrier": "material" }
+      ],
+      "ports": { "in": "deal" }
+    },
+
+    "transfer_expense": {
+      "_purpose": "Tax, interest, insurance premiums, bank fees. The one expense shape that really is an edge into a sink: money out, nothing back, no exchange node.",
+      "nodes": [
+        { "id": "paid", "type": "sink", "value": 0, "carrier": "money" }
+      ],
+      "ports": { "in": "paid" }
+    },
+
+    "consumable_item": {
+      "_purpose": "Toothpaste, pantry goods. Stock depletion — the fourth expense shape, in which no money moves.",
+      "nodes": [
+        { "id": "stock", "type": "storage", "value": 0, "carrier": "material" },
+        { "id": "used",  "type": "sink",    "value": 0, "carrier": "material" }
+      ],
+      "edges": [
+        { "_leg": "depletion — linear for use proportional to stock on hand",
+          "id": "depletion", "origin": "stock", "target": "used", "carrier": "material",
+          "logic": "linear", "params": { "k": 0 } }
+      ],
+      "ports": { "in": "stock", "out": "stock" }
+    },
+
+    "durable_asset": {
+      "_purpose": "Car, appliance, laptop. Two coupled stores: book_value on money and condition on material. ADR 4 as amended — book_value holds the DEPRECIABLE BASE (value minus salvage), so a single linear edge decays asymptotically to zero and the displayed book value is asymptotic to salvage exactly. No threshold floor, and no second edge off the same store to double-count.",
+      "nodes": [
+        { "id": "book_value", "type": "storage", "value": 0, "carrier": "money" },
+        { "id": "condition",  "type": "storage", "value": 0, "carrier": "material" },
+        { "id": "value_lost", "type": "sink",    "value": 0, "carrier": "money" },
+        { "id": "worn",       "type": "sink",    "value": 0, "carrier": "material" }
+      ],
+      "edges": [
+        { "_leg": "declining-balance depreciation of the depreciable base",
+          "id": "depreciation", "origin": "book_value", "target": "value_lost", "carrier": "money",
+          "logic": "linear", "params": { "k": 0 } },
+        { "_leg": "physical wear — a different sink class from depreciation, never summed with it",
+          "id": "wear", "origin": "condition", "target": "worn", "carrier": "material",
+          "logic": "linear", "params": { "k": 0 } }
+      ],
+      "ports": { "in": "book_value" }
+    },
+
+    "income_asset": {
+      "_purpose": "Rental property, share parcel. Holds recoverable value and produces cashflow.",
+      "nodes": [
+        { "id": "body",       "type": "storage", "value": 0, "carrier": "money" },
+        { "id": "yield",      "type": "gain",    "value": 0, "carrier": "money" },
+        { "id": "value_lost", "type": "sink",    "value": 0, "carrier": "money" }
+      ],
+      "edges": [
+        { "_leg": "the yield the asset produces",
+          "id": "production", "origin": "body", "target": "yield", "carrier": "money",
+          "logic": "linear", "params": { "k": 0 } },
+        { "_leg": "depreciation of the body, on the depreciable base as durable_asset does",
+          "id": "depreciation", "origin": "body", "target": "value_lost", "carrier": "money",
+          "logic": "linear", "params": { "k": 0 } }
+      ],
+      "ports": { "in": "body", "out": "yield" }
+    },
+
+    "liability": {
+      "_purpose": "Mortgage, card, loan. ADR 3 — daily accrual, monthly payment. `interest_accrued` is a constant pinned at 1.0 and exists only to be the ORIGIN of the interest edge: REQ-FLOW-2 forbids a self-edge, so interest is `interaction` logic with the principal store as control_node. That edge needs a control_node and is therefore builder-emitted, not a template edge.",
+      "nodes": [
+        { "id": "principal",        "type": "storage",  "value": 0,   "carrier": "money" },
+        { "id": "interest_accrued", "type": "constant", "value": 1.0, "carrier": "money" },
+        { "id": "retired",          "type": "sink",     "value": 0,   "carrier": "money" }
+      ],
+      "edges": [
+        { "_leg": "principal retired by payment — flows only while principal exceeds the threshold",
+          "id": "retirement", "origin": "principal", "target": "retired", "carrier": "money",
+          "logic": "threshold", "params": { "k": 0, "threshold": 0 } }
+      ],
+      "ports": { "in": "principal", "out": "principal" }
+    }
+  },
+
+  "library": {
+    "account": {
+      "category": "asset",
+      "defaultInPort": "in", "defaultOutPort": "out",
+      "sinkClasses": {},
+      "wiring": []
+    },
+
+    "income_stream": {
+      "category": "income",
+      "defaultInPort": "out", "defaultOutPort": "out",
+      "sinkClasses": {},
+      "wiring": [
+        { "id": "flow", "member": "tap", "direction": "out", "carrier": "money",
+          "target": "accountId", "logic": "constant", "forced": true,
+          "note": "The pay cycle is a forced waveform, and forcing cannot live on a template edge. §4.1: a fixed recurring bill is `constant` with `forcing`, and income is the same shape with the sign reversed." }
+      ]
+    },
+
+    "purchase_to_stock": {
+      "category": "expense", "expenseShape": "purchase_to_stock",
+      "defaultInPort": "in", "defaultOutPort": "out",
+      "sinkClasses": { "revenue": "boundary" },
+      "wiring": [
+        { "id": "money_in", "member": "deal", "direction": "in", "carrier": "money",
+          "target": "accountId", "logic": null,
+          "note": "REQ-FLOW-0: a diamond edge carries no logic and no params. The exchange node computes both legs from its own k and price." },
+        { "id": "goods_out", "member": "deal", "direction": "out", "carrier": "material",
+          "target": "stockNodeId", "logic": null,
+          "note": "REQ-MDL-1a: the instance names the household store its real leg terminates in. Two instances naming the same store share it." }
+      ]
+    },
+
+    "purchase_consumed": {
+      "category": "expense", "expenseShape": "purchase_consumed",
+      "defaultInPort": "in", "defaultOutPort": "in",
+      "realLegCarrier": "material",
+      "limitation": "Ships on the material carrier only. Electricity belongs on the energy carrier, and REQ-ONT-10 forbids merging carriers, so an energy variant is deferred rather than folded in here. See p0a-purchase-consumed-energy.",
+      "sinkClasses": { "revenue": "boundary", "heat": "dissipation" },
+      "wiring": [
+        { "id": "money_in", "member": "deal", "direction": "in", "carrier": "money",
+          "target": "accountId", "logic": null,
+          "note": "REQ-FLOW-0: no logic, no params." }
+      ]
+    },
+
+    "transfer_expense": {
+      "category": "expense", "expenseShape": "transfer",
+      "defaultInPort": "in", "defaultOutPort": "in",
+      "sinkClasses": { "paid": "transfer" },
+      "wiring": [
+        { "id": "payment", "member": "paid", "direction": "in", "carrier": "money",
+          "target": "accountId", "logic": "constant", "forced": true,
+          "note": "Money out with no real leg — the only expense shape with no exchange node. Recurrence is a forced waveform, so the edge is the builder's." }
+      ]
+    },
+
+    "consumable_item": {
+      "category": "expense", "expenseShape": "stock_depletion",
+      "defaultInPort": "in", "defaultOutPort": "out",
+      "sinkClasses": { "used": "depletion" },
+      "wiring": []
+    },
+
+    "durable_asset": {
+      "category": "asset", "expenseShape": "stock_depletion",
+      "defaultInPort": "in", "defaultOutPort": "in",
+      "valueStoreHolds": "depreciable_base",
+      "displayedValue": "store + salvageValueMinor",
+      "depreciation": "declining_balance",
+      "sinkClasses": { "value_lost": "accounting", "worn": "depletion" },
+      "wiring": []
+    },
+
+    "income_asset": {
+      "category": "asset",
+      "defaultInPort": "in", "defaultOutPort": "out",
+      "valueStoreHolds": "depreciable_base",
+      "displayedValue": "store + salvageValueMinor",
+      "sinkClasses": { "value_lost": "accounting" },
+      "wiring": [
+        { "id": "distribution", "member": "yield", "direction": "out", "carrier": "money",
+          "target": "accountId", "logic": "linear",
+          "note": "The yield reaches an account outside the instance, so the edge is the builder's." }
+      ]
+    },
+
+    "liability": {
+      "category": "liability",
+      "defaultInPort": "in", "defaultOutPort": "out",
+      "compounding": "daily",
+      "sinkClasses": { "retired": "transfer" },
+      "wiring": [
+        { "id": "interest", "member": "interest_accrued", "direction": "out", "carrier": "money",
+          "target": "principal", "targetIsMember": true,
+          "logic": "interaction", "controlMember": "principal",
+          "note": "REQ-FLOW-2: never a self-edge. Constant pinned at 1.0 as origin, interaction logic, principal as control_node — read, never consumed. F = k · 1 · Q_principal = dailyRate · principal. A template edge cannot carry control_node, and control_node does not resolve composite ids, so the builder names the expanded id directly." },
+        { "id": "payment", "member": "principal", "direction": "in", "carrier": "money",
+          "target": "accountId", "logic": "constant", "forced": true,
+          "note": "The monthly payment. ADR 3 pairs it with daily accrual." }
+      ]
+    }
+  }
+}

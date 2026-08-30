@@ -1,0 +1,146 @@
+{
+  "_doc": "GSSK Household Budget — DETAILED diagram. Every primitive in the model: all counterparties, all accounts, all liabilities, both legs of every physical item, and all four classes of terminal node. Loadable in gssk-dia. See docs/diagrams/household-overview.json for the reduced view.",
+  "_ontology": {
+    "claim": "An expense is a boundary transaction with a counterparty, not an edge into a sink. Four distinct expense shapes appear below, and only one of them terminates in a sink directly.",
+    "1_purchase_to_stock": "grocery_buy, toothpaste_buy, fuel_buy — money out, a real thing in, held as household stock. Exchange node couples the two legs at a price.",
+    "2_purchase_consumed_on_receipt": "power_buy, rail_fare — money out, a service in, consumed immediately. The real leg goes straight to heat because that is where it actually goes.",
+    "3_transfer": "ato_tax, lender_interest, insurer_premium, bank_fees — money out, nothing real back. A sink IS correct here, and this is the only class where it is.",
+    "4_stock_depletion": "pantry_stock, toothpaste_stock, car_condition to consumed — no money moves at all. The money was spent at purchase; this is the item being used up."
+  },
+  "_terminal_node_classes": {
+    "boundary": "supermarket_revenue, pharmacy_revenue, utility_revenue, fuel_co_revenue, rail_revenue — money that crossed the household boundary. Conserved, still exists, now in someone else's system. Modelled as a sink because the household's frame ends here, NOT because the money was destroyed.",
+    "transfer": "ato_tax, lender_interest, insurer_premium, bank_fees — as above, but with no real counter-flow.",
+    "accounting": "value_lost — book value written down. No counterparty, no physical referent, no conservation claim.",
+    "dissipation": "heat — Odum's heat sink. The only thermodynamically terminal node in the model.",
+    "depletion": "consumed — material used up by the household."
+  },
+  "_omitted": {
+    "toothpaste_reorder_switch": "REQ-RENEW-1's switch-gated repurchase is deliberately absent. The switch node's gating semantics are not pinned by a golden-vector test yet, and drawing a wire whose behaviour is unverified would put a claim in the diagram that the kernel may not honour. Tracked as task d1-pin-switch-gain-semantics.",
+    "offset_feedback": "The offset account does not yet modulate mortgage interest. This is REQ-MDL-8's deliberate omission: it is the feedback edge the calibration and structure-search machinery is meant to discover, not one the author asserts."
+  },
+  "metadata": {
+    "schema_version": 4,
+    "name": "Household Budget — Detailed",
+    "description": "Full household budget network. Expenses are exchange-node boundary transactions with named counterparties; terminal nodes are separated into boundary crossings, transfers, accounting write-downs, material depletion and genuine dissipation.",
+    "author": "gssk-budget",
+    "created_at": "2026-08-29T00:00:00Z"
+  },
+  "carriers": [
+    { "id": "money", "unit": "AUD", "conserved": true },
+    { "id": "material", "unit": "unit", "conserved": true },
+    { "id": "energy", "unit": "MJ", "conserved": true },
+    {
+      "_note": "Declared but carrying no flows yet (REQ-MDL-5). The hook for advice, alerts and decisions, held back deliberately under REQ-HON-3.",
+      "id": "information",
+      "unit": "bit",
+      "conserved": false
+    }
+  ],
+  "nodes": [
+    { "_class": "INPUT", "id": "employer", "type": "source", "value": 1.0, "carrier": "money", "quality_input": 1.0, "visual": { "x": 120, "y": 100, "label": "Employer" } },
+    { "_class": "INPUT", "id": "tenant", "type": "source", "value": 1.0, "carrier": "money", "visual": { "x": 120, "y": 240, "label": "Tenant (rent)" } },
+    { "_class": "INPUT — counterparty supplying goods", "id": "supermarket", "type": "source", "value": 1.0, "carrier": "material", "visual": { "x": 120, "y": 620, "label": "Supermarket" } },
+    { "_class": "INPUT — counterparty supplying goods", "id": "pharmacy", "type": "source", "value": 1.0, "carrier": "material", "visual": { "x": 120, "y": 760, "label": "Pharmacy" } },
+    { "_class": "INPUT — counterparty supplying energy", "id": "electricity_co", "type": "source", "value": 1.0, "carrier": "energy", "visual": { "x": 120, "y": 900, "label": "Electricity retailer" } },
+    { "_class": "INPUT — counterparty supplying energy", "id": "fuel_co", "type": "source", "value": 1.0, "carrier": "energy", "visual": { "x": 120, "y": 1040, "label": "Fuel retailer" } },
+    { "_class": "INPUT — counterparty supplying transport work", "id": "rail_operator", "type": "source", "value": 1.0, "carrier": "energy", "visual": { "x": 120, "y": 1180, "label": "Rail operator" } },
+
+    { "_class": "ACCOUNT", "id": "savings_goal", "type": "storage", "value": 12000.0, "carrier": "money", "visual": { "x": 400, "y": 60, "label": "Savings (goals)", "capacity": 60000 } },
+    { "_class": "ACCOUNT", "id": "offset", "type": "storage", "value": 8000.0, "carrier": "money", "visual": { "x": 400, "y": 180, "label": "Offset account", "capacity": 40000 } },
+    { "_class": "ACCOUNT", "id": "super_fund", "type": "storage", "value": 96000.0, "carrier": "money", "visual": { "x": 400, "y": 300, "label": "Superannuation", "capacity": 400000 } },
+    { "_class": "ACCOUNT — the hub", "id": "everyday", "type": "storage", "value": 4200.0, "carrier": "money", "visual": { "x": 400, "y": 460, "label": "Everyday account", "capacity": 20000 } },
+    { "_class": "Pinned origin for interaction logic (REQ-FLOW-2)", "id": "pinned", "type": "constant", "value": 1.0, "carrier": "money", "visual": { "x": 400, "y": 1320, "label": "1.0" } },
+
+    { "_class": "LIABILITY — debt counter on the money carrier, not a money holding", "id": "mortgage", "type": "storage", "value": 480000.0, "carrier": "money", "visual": { "x": 680, "y": 60, "label": "Mortgage principal", "capacity": 600000 } },
+    { "_class": "LIABILITY — debt counter", "id": "credit_card", "type": "storage", "value": 2400.0, "carrier": "money", "visual": { "x": 680, "y": 180, "label": "Credit card", "capacity": 15000 } },
+    { "_class": "PROCESSING — income_asset yield gate", "id": "rental_yield", "type": "gain", "value": 0.0, "carrier": "money", "params": { "k": 1.0 }, "visual": { "x": 680, "y": 300, "label": "Rental yield" } },
+
+    { "_class": "TRANSACTION DIAMOND — purchase to stock", "id": "grocery_buy", "type": "exchange", "value": 0.0, "carrier": "material", "params": { "k": 0.0004, "price": 3.5 }, "visual": { "x": 680, "y": 620, "label": "Grocery purchase" } },
+    { "_class": "TRANSACTION DIAMOND — purchase to stock", "id": "toothpaste_buy", "type": "exchange", "value": 0.0, "carrier": "material", "params": { "k": 0.000012, "price": 6.0 }, "visual": { "x": 680, "y": 760, "label": "Toothpaste purchase" } },
+    { "_class": "TRANSACTION DIAMOND — service consumed on receipt", "id": "power_buy", "type": "exchange", "value": 0.0, "carrier": "energy", "params": { "k": 0.0003, "price": 0.11 }, "visual": { "x": 680, "y": 900, "label": "Electricity purchase" } },
+    { "_class": "TRANSACTION DIAMOND — purchase to stock", "id": "fuel_buy", "type": "exchange", "value": 0.0, "carrier": "energy", "params": { "k": 0.00008, "price": 0.045 }, "visual": { "x": 680, "y": 1040, "label": "Fuel purchase" } },
+    { "_class": "TRANSACTION DIAMOND — service consumed on receipt", "id": "rail_fare", "type": "exchange", "value": 0.0, "carrier": "energy", "params": { "k": 0.00004, "price": 0.6 }, "visual": { "x": 680, "y": 1180, "label": "Rail fare" } },
+
+    { "_class": "COUNTER — principal repaid", "id": "debt_retired", "type": "sink", "value": 0.0, "carrier": "money", "visual": { "x": 960, "y": 60, "label": "Principal retired" } },
+    { "_class": "ASSET — income-producing, book value leg", "id": "rental_book_value", "type": "storage", "value": 410000.0, "carrier": "money", "visual": { "x": 960, "y": 200, "label": "Rental (book value)", "capacity": 600000 } },
+    { "_class": "ASSET — durable, MONEY leg (REQ-ONT-1)", "id": "car_book_value", "type": "storage", "value": 1400000.0, "carrier": "money", "visual": { "x": 960, "y": 340, "label": "Car (book value)", "capacity": 2200000 } },
+    { "_class": "ASSET — durable, PHYSICAL leg (REQ-ONT-1). A car whose book value is zero still exists and still costs money to run.", "id": "car_condition", "type": "storage", "value": 100.0, "carrier": "material", "visual": { "x": 960, "y": 480, "label": "Car (condition)", "capacity": 100 } },
+    { "_class": "ASSET — consumable stock", "id": "pantry_stock", "type": "storage", "value": 30.0, "carrier": "material", "visual": { "x": 960, "y": 620, "label": "Pantry stock", "capacity": 60 } },
+    { "_class": "ASSET — consumable stock", "id": "toothpaste_stock", "type": "storage", "value": 1.0, "carrier": "material", "visual": { "x": 960, "y": 760, "label": "Toothpaste stock", "capacity": 3 } },
+    { "_class": "ASSET — consumable stock", "id": "fuel_tank", "type": "storage", "value": 1400.0, "carrier": "energy", "visual": { "x": 960, "y": 1040, "label": "Fuel tank", "capacity": 2000 } },
+
+    { "_class": "TRANSFER SINK — money out, nothing real back", "id": "ato_tax", "type": "sink", "value": 0.0, "carrier": "money", "visual": { "x": 1240, "y": 60, "label": "Tax (ATO)" } },
+    { "_class": "TRANSFER SINK", "id": "lender_interest", "type": "sink", "value": 0.0, "carrier": "money", "visual": { "x": 1240, "y": 180, "label": "Lender (repayments)" } },
+    { "_class": "TRANSFER SINK", "id": "insurer_premium", "type": "sink", "value": 0.0, "carrier": "money", "visual": { "x": 1240, "y": 300, "label": "Insurer (premiums)" } },
+    { "_class": "TRANSFER SINK", "id": "bank_fees", "type": "sink", "value": 0.0, "carrier": "money", "visual": { "x": 1240, "y": 420, "label": "Bank fees" } },
+
+    { "_class": "BOUNDARY SINK — money crossed into the counterparty's system", "id": "supermarket_revenue", "type": "sink", "value": 0.0, "carrier": "money", "visual": { "x": 1240, "y": 620, "label": "Supermarket revenue" } },
+    { "_class": "BOUNDARY SINK", "id": "pharmacy_revenue", "type": "sink", "value": 0.0, "carrier": "money", "visual": { "x": 1240, "y": 760, "label": "Pharmacy revenue" } },
+    { "_class": "BOUNDARY SINK", "id": "utility_revenue", "type": "sink", "value": 0.0, "carrier": "money", "visual": { "x": 1240, "y": 900, "label": "Utility revenue" } },
+    { "_class": "BOUNDARY SINK", "id": "fuel_co_revenue", "type": "sink", "value": 0.0, "carrier": "money", "visual": { "x": 1240, "y": 1040, "label": "Fuel retailer revenue" } },
+    { "_class": "BOUNDARY SINK", "id": "rail_revenue", "type": "sink", "value": 0.0, "carrier": "money", "visual": { "x": 1240, "y": 1180, "label": "Rail revenue" } },
+
+    { "_class": "ACCOUNTING SINK — book value written down, no counterparty", "id": "value_lost", "type": "sink", "value": 0.0, "carrier": "money", "visual": { "x": 1520, "y": 340, "label": "Value lost" } },
+    { "_class": "DEPLETION SINK — material used up", "id": "consumed", "type": "sink", "value": 0.0, "carrier": "material", "visual": { "x": 1520, "y": 690, "label": "Consumed" } },
+    { "_class": "DISSIPATION SINK — Odum's heat sink, the only thermodynamically terminal node", "id": "heat", "type": "sink", "value": 0.0, "carrier": "energy", "visual": { "x": 1520, "y": 1000, "label": "Heat" } }
+  ],
+  "edges": [
+    { "_note": "Fortnightly salary as a forcing waveform (REQ-TIME-2). phase is a TIME offset in days, SUBTRACTED (REQ-TIME-4).", "id": "e_salary", "origin": "employer", "target": "everyday", "carrier": "money", "logic": "constant", "params": { "k": 0.0 }, "forcing": { "waveform": "square", "period": 14.0, "duty": 0.0714, "mean": 2100.0, "amplitude": 2100.0, "phase": 3.0 } },
+    { "_note": "Employer superannuation contribution.", "id": "e_super", "origin": "employer", "target": "super_fund", "carrier": "money", "logic": "constant", "params": { "k": 32.0 } },
+    { "_note": "Rent received enters through the income_asset yield gate.", "id": "e_rent_in", "origin": "tenant", "target": "rental_yield", "carrier": "money" },
+    { "_note": "Yield gate delivers rent to the account.", "id": "e_rent_out", "origin": "rental_yield", "target": "everyday", "carrier": "money" },
+
+    { "_note": "Discretionary transfer to the goal buffer. Linear: saving scales with what is available.", "id": "e_to_savings", "origin": "everyday", "target": "savings_goal", "carrier": "money", "logic": "linear", "params": { "k": 0.004 } },
+    { "_note": "Transfer to offset. The offset does not yet modulate mortgage interest — see _omitted.offset_feedback.", "id": "e_to_offset", "origin": "everyday", "target": "offset", "carrier": "money", "logic": "linear", "params": { "k": 0.002 } },
+
+    { "_note": "Mortgage interest accrual. REQ-FLOW-2: pinned constant as origin, interaction logic, principal as control_node. control_node is read, never consumed.", "id": "e_mortgage_interest", "origin": "pinned", "target": "mortgage", "carrier": "money", "logic": "interaction", "params": { "k": 0.000167, "control_node": "mortgage" } },
+    { "_note": "Principal repayment drains the debt counter. threshold floors it at zero.", "id": "e_mortgage_principal", "origin": "mortgage", "target": "debt_retired", "carrier": "money", "logic": "threshold", "params": { "k": 95.0, "threshold": 0.0 } },
+    { "_note": "TRANSFER — the cash leg of the mortgage repayment actually leaving the account.", "id": "e_mortgage_cash", "origin": "everyday", "target": "lender_interest", "carrier": "money", "logic": "constant", "params": { "k": 145.0 } },
+
+    { "_note": "Credit card interest, same pinned-origin interaction pattern.", "id": "e_card_interest", "origin": "pinned", "target": "credit_card", "carrier": "money", "logic": "interaction", "params": { "k": 0.000547, "control_node": "credit_card" } },
+    { "_note": "Card principal repayment drains the debt counter.", "id": "e_card_principal", "origin": "credit_card", "target": "debt_retired", "carrier": "money", "logic": "threshold", "params": { "k": 20.0, "threshold": 0.0 } },
+    { "_note": "TRANSFER — cash leg of the card repayment.", "id": "e_card_cash", "origin": "everyday", "target": "lender_interest", "carrier": "money", "logic": "constant", "params": { "k": 25.0 } },
+
+    { "_note": "TRANSFER — income tax. Money out, nothing real back. A sink is correct here.", "id": "e_tax", "origin": "everyday", "target": "ato_tax", "carrier": "money", "logic": "constant", "params": { "k": 95.0 } },
+    { "_note": "TRANSFER — insurance premium. Nothing real flows back until a claim, which is an event, not a rate.", "id": "e_insurance", "origin": "everyday", "target": "insurer_premium", "carrier": "money", "logic": "constant", "params": { "k": 12.0 } },
+    { "_note": "TRANSFER — account keeping fees.", "id": "e_fees", "origin": "everyday", "target": "bank_fees", "carrier": "money", "logic": "constant", "params": { "k": 0.5 } },
+
+    { "_note": "PURCHASE TO STOCK — groceries. Money leg in.", "id": "e_groc_money_in", "origin": "everyday", "target": "grocery_buy", "carrier": "money" },
+    { "_note": "Goods leg in — the supermarket supplies the transaction.", "id": "e_groc_goods_in", "origin": "supermarket", "target": "grocery_buy", "carrier": "material" },
+    { "_note": "Goods leg out — groceries become household stock. This is the leg a money-only expense model discards.", "id": "e_groc_goods_out", "origin": "grocery_buy", "target": "pantry_stock", "carrier": "material" },
+    { "_note": "Money leg out — payment crosses the boundary into the supermarket's system. F_money = price x F_goods.", "id": "e_groc_money_out", "origin": "grocery_buy", "target": "supermarket_revenue", "carrier": "money" },
+    { "_note": "STOCK DEPLETION — no money moves. Linear: use proportional to stock on hand.", "id": "e_pantry_used", "origin": "pantry_stock", "target": "consumed", "carrier": "material", "logic": "linear", "params": { "k": 0.05 } },
+
+    { "_note": "PURCHASE TO STOCK — toothpaste. Money leg in.", "id": "e_tp_money_in", "origin": "everyday", "target": "toothpaste_buy", "carrier": "money" },
+    { "_note": "Goods leg in.", "id": "e_tp_goods_in", "origin": "pharmacy", "target": "toothpaste_buy", "carrier": "material" },
+    { "_note": "Goods leg out — a tube enters stock.", "id": "e_tp_goods_out", "origin": "toothpaste_buy", "target": "toothpaste_stock", "carrier": "material" },
+    { "_note": "Money leg out — crosses the boundary.", "id": "e_tp_money_out", "origin": "toothpaste_buy", "target": "pharmacy_revenue", "carrier": "money" },
+    { "_note": "STOCK DEPLETION — constant use, 1 tube per 42 days. The purchase price was expensed the day it was bought; this flow is the tube being used, and no money moves.", "id": "e_tp_used", "origin": "toothpaste_stock", "target": "consumed", "carrier": "material", "logic": "constant", "params": { "k": 0.0238 } },
+
+    { "_note": "SERVICE CONSUMED ON RECEIPT — electricity. Money leg in.", "id": "e_pw_money_in", "origin": "everyday", "target": "power_buy", "carrier": "money" },
+    { "_note": "Energy leg in — the retailer supplies the transaction.", "id": "e_pw_energy_in", "origin": "electricity_co", "target": "power_buy", "carrier": "energy" },
+    { "_note": "Energy leg out — there is no household stock of grid electricity, so it goes straight to genuine dissipation.", "id": "e_pw_energy_out", "origin": "power_buy", "target": "heat", "carrier": "energy" },
+    { "_note": "Money leg out — the bill crosses the boundary.", "id": "e_pw_money_out", "origin": "power_buy", "target": "utility_revenue", "carrier": "money" },
+
+    { "_note": "PURCHASE TO STOCK — fuel. Money leg in.", "id": "e_fu_money_in", "origin": "everyday", "target": "fuel_buy", "carrier": "money" },
+    { "_note": "Energy leg in.", "id": "e_fu_energy_in", "origin": "fuel_co", "target": "fuel_buy", "carrier": "energy" },
+    { "_note": "Energy leg out — fuel is stored, unlike electricity.", "id": "e_fu_energy_out", "origin": "fuel_buy", "target": "fuel_tank", "carrier": "energy" },
+    { "_note": "Money leg out — crosses the boundary.", "id": "e_fu_money_out", "origin": "fuel_buy", "target": "fuel_co_revenue", "carrier": "money" },
+    { "_note": "Fuel burned. Genuine dissipation.", "id": "e_fuel_burn", "origin": "fuel_tank", "target": "heat", "carrier": "energy", "logic": "linear", "params": { "k": 0.02 } },
+
+    { "_note": "SERVICE CONSUMED ON RECEIPT — rail fare. Money leg in.", "id": "e_rl_money_in", "origin": "everyday", "target": "rail_fare", "carrier": "money" },
+    { "_note": "Transport work in — the operator supplies it.", "id": "e_rl_energy_in", "origin": "rail_operator", "target": "rail_fare", "carrier": "energy" },
+    { "_note": "Transport work out — consumed on the journey and dissipated. Nothing enters household stock.", "id": "e_rl_energy_out", "origin": "rail_fare", "target": "heat", "carrier": "energy" },
+    { "_note": "Money leg out — crosses the boundary into the operator's system.", "id": "e_rl_money_out", "origin": "rail_fare", "target": "rail_revenue", "carrier": "money" },
+
+    { "_note": "ACCOUNTING — declining-balance depreciation of the car's money leg (REQ-FLOW-1 default).", "id": "e_car_depreciation", "origin": "car_book_value", "target": "value_lost", "carrier": "money", "logic": "linear", "params": { "k": 0.000548 } },
+    { "_note": "PHYSICAL — the car's condition leg degrading. Deliberately a different rate from the money leg: book value falls faster than the machine wears out, which is exactly why REQ-ONT-1 keeps them apart.", "id": "e_car_wear", "origin": "car_condition", "target": "consumed", "carrier": "material", "logic": "linear", "params": { "k": 0.000274 } },
+    { "_note": "ACCOUNTING — rental property depreciation.", "id": "e_rental_depreciation", "origin": "rental_book_value", "target": "value_lost", "carrier": "money", "logic": "linear", "params": { "k": 0.0000822 } }
+  ],
+  "config": {
+    "t_start": 0.0,
+    "t_end": 10958.0,
+    "dt": 1.0,
+    "method": "auto"
+  }
+}

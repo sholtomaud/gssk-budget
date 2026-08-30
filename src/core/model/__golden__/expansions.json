@@ -1,0 +1,295 @@
+{
+  "account": {
+    "nodes": [
+      {
+        "id": "inst__balance",
+        "type": "storage",
+        "value": 0,
+        "carrier": "money"
+      }
+    ],
+    "edges": []
+  },
+  "consumable_item": {
+    "nodes": [
+      {
+        "id": "inst__stock",
+        "type": "storage",
+        "value": 0,
+        "carrier": "material"
+      },
+      {
+        "id": "inst__used",
+        "type": "sink",
+        "value": 0,
+        "carrier": "material"
+      }
+    ],
+    "edges": [
+      {
+        "_leg": "depletion — linear for use proportional to stock on hand",
+        "id": "inst__depletion",
+        "origin": "inst__stock",
+        "target": "inst__used",
+        "carrier": "material",
+        "logic": "linear",
+        "params": {
+          "k": 0
+        }
+      }
+    ]
+  },
+  "durable_asset": {
+    "nodes": [
+      {
+        "id": "inst__book_value",
+        "type": "storage",
+        "value": 0,
+        "carrier": "money"
+      },
+      {
+        "id": "inst__condition",
+        "type": "storage",
+        "value": 0,
+        "carrier": "material"
+      },
+      {
+        "id": "inst__value_lost",
+        "type": "sink",
+        "value": 0,
+        "carrier": "money"
+      },
+      {
+        "id": "inst__worn",
+        "type": "sink",
+        "value": 0,
+        "carrier": "material"
+      }
+    ],
+    "edges": [
+      {
+        "_leg": "declining-balance depreciation of the depreciable base",
+        "id": "inst__depreciation",
+        "origin": "inst__book_value",
+        "target": "inst__value_lost",
+        "carrier": "money",
+        "logic": "linear",
+        "params": {
+          "k": 0
+        }
+      },
+      {
+        "_leg": "physical wear — a different sink class from depreciation, never summed with it",
+        "id": "inst__wear",
+        "origin": "inst__condition",
+        "target": "inst__worn",
+        "carrier": "material",
+        "logic": "linear",
+        "params": {
+          "k": 0
+        }
+      }
+    ]
+  },
+  "income_asset": {
+    "nodes": [
+      {
+        "id": "inst__body",
+        "type": "storage",
+        "value": 0,
+        "carrier": "money"
+      },
+      {
+        "id": "inst__yield",
+        "type": "gain",
+        "value": 0,
+        "carrier": "money"
+      },
+      {
+        "id": "inst__value_lost",
+        "type": "sink",
+        "value": 0,
+        "carrier": "money"
+      }
+    ],
+    "edges": [
+      {
+        "_leg": "the yield the asset produces",
+        "id": "inst__production",
+        "origin": "inst__body",
+        "target": "inst__yield",
+        "carrier": "money",
+        "logic": "linear",
+        "params": {
+          "k": 0
+        }
+      },
+      {
+        "_leg": "depreciation of the body, on the depreciable base as durable_asset does",
+        "id": "inst__depreciation",
+        "origin": "inst__body",
+        "target": "inst__value_lost",
+        "carrier": "money",
+        "logic": "linear",
+        "params": {
+          "k": 0
+        }
+      }
+    ]
+  },
+  "income_stream": {
+    "nodes": [
+      {
+        "id": "inst__tap",
+        "type": "source",
+        "value": 0,
+        "carrier": "money"
+      }
+    ],
+    "edges": []
+  },
+  "liability": {
+    "nodes": [
+      {
+        "id": "inst__principal",
+        "type": "storage",
+        "value": 0,
+        "carrier": "money"
+      },
+      {
+        "id": "inst__interest_accrued",
+        "type": "constant",
+        "value": 1,
+        "carrier": "money"
+      },
+      {
+        "id": "inst__retired",
+        "type": "sink",
+        "value": 0,
+        "carrier": "money"
+      }
+    ],
+    "edges": [
+      {
+        "_leg": "principal retired by payment — flows only while principal exceeds the threshold",
+        "id": "inst__retirement",
+        "origin": "inst__principal",
+        "target": "inst__retired",
+        "carrier": "money",
+        "logic": "threshold",
+        "params": {
+          "k": 0,
+          "threshold": 0
+        }
+      }
+    ]
+  },
+  "purchase_consumed": {
+    "nodes": [
+      {
+        "id": "inst__supplier",
+        "type": "source",
+        "value": 0,
+        "carrier": "material"
+      },
+      {
+        "id": "inst__deal",
+        "type": "exchange",
+        "value": 0,
+        "carrier": "material",
+        "params": {
+          "k": 1,
+          "price": 0
+        }
+      },
+      {
+        "id": "inst__revenue",
+        "type": "sink",
+        "value": 0,
+        "carrier": "money"
+      },
+      {
+        "id": "inst__heat",
+        "type": "sink",
+        "value": 0,
+        "carrier": "material"
+      }
+    ],
+    "edges": [
+      {
+        "_leg": "goods in — the counterparty supplies the transaction",
+        "id": "inst__goods_in",
+        "origin": "inst__supplier",
+        "target": "inst__deal",
+        "carrier": "material"
+      },
+      {
+        "_leg": "money out — payment crosses the boundary into the counterparty's system",
+        "id": "inst__money_out",
+        "origin": "inst__deal",
+        "target": "inst__revenue",
+        "carrier": "money"
+      },
+      {
+        "_leg": "the real leg, used up on receipt — REQ-FLOW-0: a diamond leg carries no logic and no params, the exchange node computes it",
+        "id": "inst__dissipated",
+        "origin": "inst__deal",
+        "target": "inst__heat",
+        "carrier": "material"
+      }
+    ]
+  },
+  "purchase_to_stock": {
+    "nodes": [
+      {
+        "id": "inst__supplier",
+        "type": "source",
+        "value": 0,
+        "carrier": "material"
+      },
+      {
+        "id": "inst__deal",
+        "type": "exchange",
+        "value": 0,
+        "carrier": "material",
+        "params": {
+          "k": 1,
+          "price": 0
+        }
+      },
+      {
+        "id": "inst__revenue",
+        "type": "sink",
+        "value": 0,
+        "carrier": "money"
+      }
+    ],
+    "edges": [
+      {
+        "_leg": "goods in — the counterparty supplies the transaction",
+        "id": "inst__goods_in",
+        "origin": "inst__supplier",
+        "target": "inst__deal",
+        "carrier": "material"
+      },
+      {
+        "_leg": "money out — payment crosses the boundary into the counterparty's system",
+        "id": "inst__money_out",
+        "origin": "inst__deal",
+        "target": "inst__revenue",
+        "carrier": "money"
+      }
+    ]
+  },
+  "transfer_expense": {
+    "nodes": [
+      {
+        "id": "inst__paid",
+        "type": "sink",
+        "value": 0,
+        "carrier": "money"
+      }
+    ],
+    "edges": []
+  }
+}

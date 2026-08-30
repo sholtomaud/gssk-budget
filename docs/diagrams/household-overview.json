@@ -1,0 +1,304 @@
+{
+  "_doc": "GSSK Household Budget — OVERVIEW diagram. Key stores, inputs and outputs only. Loadable in gssk-dia. The point of this diagram is the corrected expense ontology: an expense is a BOUNDARY TRANSACTION with a counterparty, expressed as Odum's transaction diamond (exchange node), not an edge into a sink. Compare docs/diagrams/household-detailed.json for the full network.",
+  "_legend": {
+    "inputs": "employer, market, grid — sources crossing INTO the household boundary",
+    "key_stores": "everyday, savings_goal, home, mortgage, pantry",
+    "transaction_diamonds": "grocery_buy, power_buy — exchange nodes coupling money out to real inflow",
+    "outputs": {
+      "supplier_revenue": "BOUNDARY CROSSING. Money that left the household to a counterparty. Not dissipation — the money still exists, in the supermarket's and the retailer's systems.",
+      "transfers_out": "TRANSFER EXPENSE. Money out with no real inflow: tax, lender interest, insurance premium, bank fees.",
+      "value_lost": "ACCOUNTING WRITE-DOWN. Book value depreciated. No counterparty, no physical referent.",
+      "consumed": "MATERIAL USED UP. Stock depleted by household consumption.",
+      "heat": "GENUINE DISSIPATION. Odum's heat sink. The only terminal node that is thermodynamically terminal.",
+      "debt_retired": "Counter of principal repaid. The mortgage store is a debt counter, not a money holding."
+    }
+  },
+  "metadata": {
+    "schema_version": 4,
+    "name": "Household Budget — Overview",
+    "description": "Key stores, inputs and outputs of the household budget model. Expenses are modelled as exchange-node boundary transactions with counterparties, not as edges into a generic expense sink.",
+    "author": "gssk-budget",
+    "created_at": "2026-08-29T00:00:00Z"
+  },
+  "carriers": [
+    { "id": "money", "unit": "AUD", "conserved": true },
+    { "id": "material", "unit": "unit", "conserved": true },
+    { "id": "energy", "unit": "MJ", "conserved": true }
+  ],
+  "nodes": [
+    {
+      "_role": "INPUT — wage income crossing the household boundary",
+      "id": "employer",
+      "type": "source",
+      "value": 1.0,
+      "carrier": "money",
+      "quality_input": 1.0,
+      "visual": { "x": 130, "y": 150, "label": "Employer (salary)" }
+    },
+    {
+      "_role": "INPUT — counterparty supplying goods. A supermarket is a SOURCE of material, not a sink for money.",
+      "id": "market",
+      "type": "source",
+      "value": 1.0,
+      "carrier": "material",
+      "visual": { "x": 130, "y": 560, "label": "Supermarket (goods)" }
+    },
+    {
+      "_role": "INPUT — counterparty supplying energy. The electricity retailer is a SOURCE of energy.",
+      "id": "grid",
+      "type": "source",
+      "value": 1.0,
+      "carrier": "energy",
+      "visual": { "x": 130, "y": 800, "label": "Electricity retailer" }
+    },
+    {
+      "_role": "KEY STORE — transaction account. The hub every money flow passes through.",
+      "id": "everyday",
+      "type": "storage",
+      "value": 4200.0,
+      "carrier": "money",
+      "visual": { "x": 420, "y": 330, "label": "Everyday account", "capacity": 20000 }
+    },
+    {
+      "_role": "Pinned origin for interaction logic. REQ-FLOW-2: interest is never a self-edge.",
+      "id": "pinned",
+      "type": "constant",
+      "value": 1.0,
+      "carrier": "money",
+      "visual": { "x": 420, "y": 620, "label": "1.0" }
+    },
+    {
+      "_role": "KEY STORE — aspirational buffer. Savings held against declared goals.",
+      "id": "savings_goal",
+      "type": "storage",
+      "value": 12000.0,
+      "carrier": "money",
+      "visual": { "x": 720, "y": 90, "label": "Savings (goals)", "capacity": 60000 }
+    },
+    {
+      "_role": "KEY STORE — durable asset book value. Physical condition leg lives in the detailed diagram (REQ-ONT-1).",
+      "id": "home",
+      "type": "storage",
+      "value": 620000.0,
+      "carrier": "money",
+      "visual": { "x": 720, "y": 230, "label": "Home (book value)", "capacity": 800000 }
+    },
+    {
+      "_role": "KEY STORE — outstanding mortgage principal. A DEBT COUNTER on the money carrier, not a money holding.",
+      "id": "mortgage",
+      "type": "storage",
+      "value": 480000.0,
+      "carrier": "money",
+      "visual": { "x": 720, "y": 400, "label": "Mortgage principal", "capacity": 600000 }
+    },
+    {
+      "_role": "TRANSACTION DIAMOND — the grocery purchase. Money leaves the account, goods enter the pantry, coupled at the declared price. THIS is what an expense is.",
+      "id": "grocery_buy",
+      "type": "exchange",
+      "value": 0.0,
+      "carrier": "material",
+      "params": { "k": 0.0004, "price": 3.5 },
+      "visual": { "x": 720, "y": 590, "label": "Grocery purchase" }
+    },
+    {
+      "_role": "TRANSACTION DIAMOND — the electricity bill. Money out, energy in. The energy is consumed on receipt and dissipates.",
+      "id": "power_buy",
+      "type": "exchange",
+      "value": 0.0,
+      "carrier": "energy",
+      "params": { "k": 0.0003, "price": 0.11 },
+      "visual": { "x": 720, "y": 810, "label": "Electricity purchase" }
+    },
+    {
+      "_role": "OUTPUT — TRANSFER EXPENSE. Tax, lender interest, insurance, fees. Money out, nothing real back. Aggregated here; decomposed per counterparty in the detailed diagram.",
+      "id": "transfers_out",
+      "type": "sink",
+      "value": 0.0,
+      "carrier": "money",
+      "visual": { "x": 1030, "y": 90, "label": "Transfers out (tax, interest, fees)" }
+    },
+    {
+      "_role": "OUTPUT — ACCOUNTING WRITE-DOWN. Depreciation of book value. No counterparty exists on the other side of this flow.",
+      "id": "value_lost",
+      "type": "sink",
+      "value": 0.0,
+      "carrier": "money",
+      "visual": { "x": 1030, "y": 230, "label": "Value lost (depreciation)" }
+    },
+    {
+      "_role": "OUTPUT — principal repaid. Drains the debt counter.",
+      "id": "debt_retired",
+      "type": "sink",
+      "value": 0.0,
+      "carrier": "money",
+      "visual": { "x": 1030, "y": 400, "label": "Principal retired" }
+    },
+    {
+      "_role": "KEY STORE — consumable stock actually held by the household.",
+      "id": "pantry",
+      "type": "storage",
+      "value": 30.0,
+      "carrier": "material",
+      "visual": { "x": 1030, "y": 560, "label": "Pantry stock", "capacity": 60 }
+    },
+    {
+      "_role": "OUTPUT — BOUNDARY CROSSING. Money that has left the household into a counterparty's system. It is not dissipated; it is elsewhere.",
+      "id": "supplier_revenue",
+      "type": "sink",
+      "value": 0.0,
+      "carrier": "money",
+      "visual": { "x": 1030, "y": 700, "label": "Counterparty revenue (boundary)" }
+    },
+    {
+      "_role": "OUTPUT — GENUINE DISSIPATION. Odum's heat sink. The only thermodynamically terminal node here.",
+      "id": "heat",
+      "type": "sink",
+      "value": 0.0,
+      "carrier": "energy",
+      "visual": { "x": 1030, "y": 880, "label": "Heat" }
+    },
+    {
+      "_role": "OUTPUT — material consumed by the household.",
+      "id": "consumed",
+      "type": "sink",
+      "value": 0.0,
+      "carrier": "material",
+      "visual": { "x": 1330, "y": 560, "label": "Consumed" }
+    }
+  ],
+  "edges": [
+    {
+      "_note": "Fortnightly salary as a forcing waveform, not an event list (REQ-TIME-2). duty=1/14 delivers 4200 AUD on one day in fourteen. phase is a TIME offset in days and is SUBTRACTED (REQ-TIME-4).",
+      "id": "e_salary",
+      "origin": "employer",
+      "target": "everyday",
+      "carrier": "money",
+      "logic": "constant",
+      "params": { "k": 0.0 },
+      "forcing": {
+        "waveform": "square",
+        "period": 14.0,
+        "duty": 0.0714,
+        "mean": 2100.0,
+        "amplitude": 2100.0,
+        "phase": 3.0
+      }
+    },
+    {
+      "_note": "Discretionary transfer to the goal buffer. Linear: saving scales with what is available.",
+      "id": "e_save",
+      "origin": "everyday",
+      "target": "savings_goal",
+      "carrier": "money",
+      "logic": "linear",
+      "params": { "k": 0.004 }
+    },
+    {
+      "_note": "Interest accrual. REQ-FLOW-2 pattern: constant node pinned at 1.0 as origin, interaction logic, principal as control_node. F = k x Q_pinned x Q_mortgage = daily rate x principal. control_node is read, never consumed.",
+      "id": "e_interest",
+      "origin": "pinned",
+      "target": "mortgage",
+      "carrier": "money",
+      "logic": "interaction",
+      "params": { "k": 0.000167, "control_node": "mortgage" }
+    },
+    {
+      "_note": "Principal repayment drains the debt counter. threshold logic floors it at zero so the store cannot go negative.",
+      "id": "e_principal",
+      "origin": "mortgage",
+      "target": "debt_retired",
+      "carrier": "money",
+      "logic": "threshold",
+      "params": { "k": 95.0, "threshold": 0.0 }
+    },
+    {
+      "_note": "TRANSFER EXPENSE — the cash leg. Tax, mortgage repayment cash, insurance premium, bank fees. Money out with no real inflow, so a sink IS the right terminal here. Aggregated for the overview.",
+      "id": "e_transfers",
+      "origin": "everyday",
+      "target": "transfers_out",
+      "carrier": "money",
+      "logic": "constant",
+      "params": { "k": 160.0 }
+    },
+    {
+      "_note": "Money leg IN to the grocery transaction diamond.",
+      "id": "e_grocery_money_in",
+      "origin": "everyday",
+      "target": "grocery_buy",
+      "carrier": "money"
+    },
+    {
+      "_note": "Goods leg IN — the supermarket supplies the transaction.",
+      "id": "e_grocery_goods_in",
+      "origin": "market",
+      "target": "grocery_buy",
+      "carrier": "material"
+    },
+    {
+      "_note": "Goods leg OUT — groceries enter household stock. THIS is the leg the sink-only model discards.",
+      "id": "e_grocery_goods_out",
+      "origin": "grocery_buy",
+      "target": "pantry",
+      "carrier": "material"
+    },
+    {
+      "_note": "Money leg OUT — payment crosses the household boundary into the supermarket's system. F_money = price x F_goods.",
+      "id": "e_grocery_money_out",
+      "origin": "grocery_buy",
+      "target": "supplier_revenue",
+      "carrier": "money"
+    },
+    {
+      "_note": "Household consumption depletes the stock. Linear: use proportional to stock on hand.",
+      "id": "e_pantry_used",
+      "origin": "pantry",
+      "target": "consumed",
+      "carrier": "material",
+      "logic": "linear",
+      "params": { "k": 0.05 }
+    },
+    {
+      "_note": "Money leg IN to the electricity transaction diamond.",
+      "id": "e_power_money_in",
+      "origin": "everyday",
+      "target": "power_buy",
+      "carrier": "money"
+    },
+    {
+      "_note": "Energy leg IN — the retailer supplies the transaction.",
+      "id": "e_power_energy_in",
+      "origin": "grid",
+      "target": "power_buy",
+      "carrier": "energy"
+    },
+    {
+      "_note": "Energy leg OUT — electricity is a service consumed on receipt. There is no household stock, so it goes straight to genuine dissipation.",
+      "id": "e_power_energy_out",
+      "origin": "power_buy",
+      "target": "heat",
+      "carrier": "energy"
+    },
+    {
+      "_note": "Money leg OUT — the bill crosses the boundary into the retailer's system.",
+      "id": "e_power_money_out",
+      "origin": "power_buy",
+      "target": "supplier_revenue",
+      "carrier": "money"
+    },
+    {
+      "_note": "Declining-balance depreciation (REQ-FLOW-1 default). Asymptotic, never negative.",
+      "id": "e_depreciation",
+      "origin": "home",
+      "target": "value_lost",
+      "carrier": "money",
+      "logic": "linear",
+      "params": { "k": 0.0000822 }
+    }
+  ],
+  "config": {
+    "t_start": 0.0,
+    "t_end": 10958.0,
+    "dt": 1.0,
+    "method": "auto"
+  }
+}
