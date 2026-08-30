@@ -16,8 +16,8 @@ jobs:
   unit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version-file: .node-version
       - run: npm run test:unit
@@ -29,15 +29,15 @@ jobs:
   validator-differential:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           path: budget-system
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: sholtomaud/GSSK
           ref: v5.0.0
           path: GSSK
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version-file: budget-system/.node-version
       - uses: actions/setup-python@v5
@@ -50,8 +50,8 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version-file: .node-version
       - run: npm install
