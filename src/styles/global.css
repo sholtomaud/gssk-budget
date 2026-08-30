@@ -1,0 +1,118 @@
+/* Design tokens and element defaults.
+ *
+ * ADR 2: hand-written CSS with custom properties. There is no Tailwind config
+ * and no PostCSS config in this tree, deliberately — an inert config is a
+ * standing invitation to reach for it.
+ *
+ * Components own their own layout in their `.css` file and scope it by writing
+ * `:host`, which BaseComponent rewrites to the tag name. They read these tokens
+ * and should not redeclare colour or spacing literals.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* Neutrals. A ledger is read for a long time, so the ground is off-white
+     rather than pure white and the ink is not pure black. */
+  --colour-ground:      #fbfbf9;
+  --colour-surface:     #ffffff;
+  --colour-border:      #e2e0da;
+  --colour-ink:         #1b1a17;
+  --colour-ink-muted:   #56534b;
+  --colour-ink-faint:   #85817a;
+
+  --colour-accent:      #2f5d50;
+  --colour-accent-ink:  #ffffff;
+
+  /* Semantics. These name what a number MEANS, never how it should feel:
+     `expected` is what the model says, `actual` is what happened, `goal` is
+     what was declared. §11 keeps those three apart everywhere, and the
+     colours have to keep them apart too. */
+  --colour-expected:    #3f6fa8;
+  --colour-actual:      #1b1a17;
+  --colour-goal:        #8a6d1f;
+  --colour-residual:    #a8443f;
+
+  /* A provisional, cold-started or in-sample number is labelled at the point of
+     display (REQ-HON-4). This is the mark that does it. */
+  --colour-provisional: #8a6d1f;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  --radius: 6px;
+  --border: 1px solid var(--colour-border);
+
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Money and statistics are read in columns and must align, so they are
+     tabular and monospaced wherever they appear. */
+  --font-numeric: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+
+  --measure: 68ch;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --colour-ground:      #16171a;
+    --colour-surface:     #1e2024;
+    --colour-border:      #33363c;
+    --colour-ink:         #e8e6e1;
+    --colour-ink-muted:   #a6a29a;
+    --colour-ink-faint:   #7b776f;
+
+    --colour-accent:      #6fae9c;
+    --colour-accent-ink:  #10241e;
+
+    --colour-expected:    #7ea6d8;
+    --colour-actual:      #e8e6e1;
+    --colour-goal:        #d4b25a;
+    --colour-residual:    #d97c76;
+    --colour-provisional: #d4b25a;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--colour-ground);
+  color: var(--colour-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Every money and statistic figure carries this, so columns align. */
+.numeric {
+  font-family: var(--font-numeric);
+  font-variant-numeric: tabular-nums;
+}
+
+/* REQ-HON-4: a provisional, cold-started or in-sample figure says so where it
+   is shown, not in documentation. */
+.provisional {
+  color: var(--colour-provisional);
+}
+
+:focus-visible {
+  outline: 2px solid var(--colour-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

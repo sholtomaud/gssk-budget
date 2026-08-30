@@ -56,3 +56,28 @@ jobs:
           node-version-file: .node-version
       - run: npm install
       - run: npm run typecheck
+
+  # REQ-APP-2's light-DOM contract needs a real browser to assert, so it cannot
+  # live in the unit run. This job is what stops a component being written
+  # against a shadow root by accident.
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+      - run: npm install
+      - run: npx playwright install chromium --with-deps
+      - run: npm run e2e
+
+  # The build has to stay static: no backend exists and none ever will (§1).
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+      - run: npm install
+      - run: npm run build
