@@ -1,0 +1,19 @@
+{
+  "_note": [
+    "REQ-KERN-1: the kernel is pinned by release tag AND by digest of the WASM",
+    "binary. The digest is recorded in every forecast record (REQ-DET-1), so a",
+    "kernel upgrade is visible in the provenance of every number it produced.",
+    "",
+    "heapBytes and canGrowMemory describe the SHIPPED build, not a wish. This",
+    "binary is compiled without ALLOW_MEMORY_GROWTH: emscripten's",
+    "abortOnCannotGrowMemory calls abort('OOM'), which kills the module. See",
+    "ADR 9 \u2014 REQ-APP-7 is written for a growable build and this one is not."
+  ],
+  "release": "v5.1.0",
+  "distTag": "dist-v5.1.0",
+  "distCommit": "3ca217e44648e1b261bd2c4610cda572d047630a",
+  "wasmSha256": "c8975f6b5b4220822719e80de54b84abcd31d396550b594d33a8c5c6380dcab7",
+  "wasmBytes": 144452,
+  "heapBytes": 16908288,
+  "canGrowMemory": false
+}

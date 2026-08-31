@@ -1,0 +1,42 @@
+/* REQ-APP-4: native Canvas 2D. No charting library. */
+:host { display: block; }
+
+:host figure { margin: 0; }
+
+:host .canvas-wrap {
+  position: relative;
+  border: var(--border);
+  border-radius: var(--radius);
+  background: var(--colour-surface);
+  overflow: hidden;
+}
+
+:host canvas { display: block; width: 100%; height: auto; }
+
+:host figcaption {
+  margin-top: var(--space-3);
+  color: var(--colour-ink-muted);
+  font-size: var(--text-sm);
+}
+
+:host .legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+
+:host .legend li { display: flex; align-items: center; gap: var(--space-2); }
+
+:host .swatch {
+  width: 1.75rem; height: 2px; border-radius: 1px; flex: none;
+}
+
+:host .empty {
+  padding: var(--space-6);
+  color: var(--colour-ink-faint);
+  text-align: center;
+}

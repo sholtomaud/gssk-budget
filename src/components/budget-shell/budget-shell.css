@@ -29,6 +29,34 @@
   margin-top: var(--space-8);
 }
 
+:host .forecast h2 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+:host .lede {
+  margin: 0 0 var(--space-6);
+  color: var(--colour-ink-muted);
+  font-size: var(--text-sm);
+}
+
+:host .status {
+  margin: var(--space-4) 0 0;
+  color: var(--colour-ink-muted);
+  font-size: var(--text-sm);
+}
+
+:host .status[data-state="failed"] { color: var(--colour-residual); }
+
+:host .caveat {
+  margin: var(--space-4) 0 0;
+  padding-top: var(--space-3);
+  border-top: var(--border);
+  color: var(--colour-ink-muted);
+  font-size: var(--text-sm);
+}
+
 :host .placeholder {
   padding: var(--space-6);
   border: var(--border);
