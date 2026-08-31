@@ -32,12 +32,7 @@ image: start ## Build dev container image (Playwright noble)
 install: start ## Run package installation inside container
 	$(CONTAINER_BIN) run --rm -v $(shell pwd):$(WORKDIR) $(IMAGE_APP) npm install
 
-# Vite prints a Network URL beside the Local one. Use the Local one: Web Crypto
-# is exposed only in a secure context, a LAN address is not one, and the kernel
-# digest check (REQ-KERN-1) needs it. Production is HTTPS, so this is a
-# development-only trap.
 dev: start ## Start Vite dev server inside container
-	@echo "Open http://localhost:5173 — NOT the Network URL Vite prints below."
 	$(CONTAINER_BIN) run --rm $(TTY_FLAGS) -p 5173:5173 -v $(shell pwd):$(WORKDIR) --name gssk-budget-dev $(IMAGE_APP) npm run dev
 
 build-app: start ## Compile optimized static assets (Vite)
