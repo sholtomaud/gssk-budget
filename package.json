@@ -5,7 +5,7 @@
   "description": "Household budget modelled as an Odum Energy Systems Language network on the GSSK kernel",
   "type": "module",
   "engines": {
-    "node": ">=25.0.0"
+    "node": ">=24.0.0"
   },
   "scripts": {
     "start": "vite --host",
@@ -16,10 +16,12 @@
     "typecheck": "tsc --noEmit",
     "e2e": "npx playwright test"
   },
+  "dependencies": {
+    "gssk": "github:sholtomaud/GSSK#dist"
+  },
   "devDependencies": {
-    "@playwright/test": "^1.62.0",
+    "@playwright/test": "1.62.1",
     "@types/node": "^26.1.1",
-    "playwright": "^1.62.0",
     "typescript": "^7.0.2",
     "vite": "^8.1.4"
   }

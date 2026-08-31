@@ -169,20 +169,7 @@
         "carrier": "money"
       }
     ],
-    "edges": [
-      {
-        "_leg": "principal retired by payment — flows only while principal exceeds the threshold",
-        "id": "inst__retirement",
-        "origin": "inst__principal",
-        "target": "inst__retired",
-        "carrier": "money",
-        "logic": "threshold",
-        "params": {
-          "k": 0,
-          "threshold": 0
-        }
-      }
-    ]
+    "edges": []
   },
   "purchase_consumed": {
     "nodes": [

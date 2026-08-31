@@ -1,5 +1,6 @@
 IMAGE_APP        := gssk-budget
 CONTAINER_BIN    := container
+# Node comes from the Playwright base image; .node-version is what CI reads.
 NODE_VERSION     := $(shell cat .node-version)
 WORKDIR          := /app
 
@@ -21,8 +22,8 @@ endif
 start: ## Start the Apple container system daemon
 	$(CONTAINER_BIN) system start
 
-image: start ## Build dev container image (node:$(NODE_VERSION)-slim)
-	$(CONTAINER_BIN) build -f Containerfile -t $(IMAGE_APP) --build-arg NODE_VERSION=$(NODE_VERSION) .
+image: start ## Build dev container image (Playwright noble)
+	$(CONTAINER_BIN) build -f Containerfile -t $(IMAGE_APP) .
 
 # --------------------------------------------------
 # Compilation and serving targets
