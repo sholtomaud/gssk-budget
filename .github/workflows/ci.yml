@@ -10,17 +10,35 @@ on:
   pull_request:
 
 jobs:
-  # Unit tests need no install: node strips the types and node:test is built in,
-  # which is REQ-TEST-2's whole point. Running them on a bare checkout keeps that
-  # honest — if a dependency ever creeps in, this job is where it shows up.
-  unit:
+  # The model layer needs no install: node strips the types and node:test is
+  # built in, which is REQ-TEST-2's whole point. Running it on a bare checkout
+  # keeps that honest — if a dependency creeps into the model layer, this job is
+  # where it shows up.
+  #
+  # src/core/kernel is excluded because it genuinely needs the pinned GSSK
+  # binary, and testing it against a stub would prove nothing about a kernel.
+  # It gets its own job below.
+  unit-no-deps:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
         with:
           node-version-file: .node-version
-      - run: npm run test:unit
+      - name: Run every test that needs no dependency
+        run: node --test $(find src -name '*.test.ts' -not -path 'src/core/kernel/*')
+
+  # The kernel tests run against the real pinned WASM. Node can load it, so
+  # there is no reason to test a fiction.
+  unit-kernel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+      - run: npm ci
+      - run: node --test "src/core/kernel/**/*.test.ts"
 
   # ADR 1: the shipped validator is hand-written and dependency-free, so nothing
   # but this differential test proves it faithful to the schema it claims to
