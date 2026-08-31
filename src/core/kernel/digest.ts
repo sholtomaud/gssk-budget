@@ -4,34 +4,25 @@
  *
  * This is an integrity check, not a secret: it catches a swapped, truncated or
  * cached-stale binary, which would otherwise produce different numbers under
- * the same recorded provenance. */
+ * the same recorded provenance.
+ */
 
-export class InsecureContextError extends Error {
-  constructor() {
-    super(
-      'crypto.subtle is unavailable, so the kernel binary cannot be verified against ' +
-      'its pinned digest. Web Crypto is exposed only in a secure context.\n\n' +
-      'In development, use the Local URL (http://localhost:5173) rather than the ' +
-      'Network URL Vite also prints — a LAN address is not a secure context. ' +
-      'In production the app is served over HTTPS, where this does not arise.\n\n' +
-      'Verification is not optional (REQ-KERN-1), so the forecast will not run ' +
-      'without it.',
-    );
-    this.name = 'InsecureContextError';
-  }
-}
+import { sha256HexSync, toHex } from './sha256.ts';
 
-/* Checked before use rather than left to fail as "Cannot read properties of
- * undefined (reading 'digest')", which says nothing about what to do. */
-export function assertWebCryptoAvailable(): void {
-  if (typeof globalThis.crypto?.subtle?.digest !== 'function') throw new InsecureContextError();
-}
-
+/* crypto.subtle where it exists — native and battle-tested — and our own
+ * implementation where it does not. Web Crypto is exposed only in a secure
+ * context, so a dev server reached at a LAN address has none, and verification
+ * must not become impossible exactly where a household is most likely to be
+ * testing on a second device. Making the check optional was never an option;
+ * making it independent of the platform is the answer. sha256.test.ts asserts
+ * the two agree, including on the real kernel binary. */
 export async function sha256Hex(bytes: Uint8Array): Promise<string> {
-  assertWebCryptoAvailable();
+  const subtle = globalThis.crypto?.subtle;
+  if (subtle === undefined) return sha256HexSync(bytes);
+
   const view = new Uint8Array(bytes);
-  const digest = await crypto.subtle.digest('SHA-256', view.buffer as ArrayBuffer);
-  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+  const digest = await subtle.digest('SHA-256', view.buffer as ArrayBuffer);
+  return toHex(new Uint8Array(digest));
 }
 
 export class DigestMismatchError extends Error {

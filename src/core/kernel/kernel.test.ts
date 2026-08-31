@@ -7,10 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 import { Kernel, PINNED, KernelAbortedError } from './kernel.ts';
-import {
-  sha256Hex, assertPinnedDigest, DigestMismatchError,
-  assertWebCryptoAvailable, InsecureContextError,
-} from './digest.ts';
+import { sha256Hex, assertPinnedDigest, DigestMismatchError } from './digest.ts';
 import { readF64, readU32 } from './views.ts';
 
 const WASM = new Uint8Array(readFileSync('node_modules/gssk/dist/gssk.wasm'));
@@ -190,26 +187,33 @@ test('a null pointer is refused rather than read', async () => {
   assert.ok(kernel.getInfo().version.length > 0);
 });
 
-/* Web Crypto exists only in a secure context. Vite prints a Network URL beside
- * the Local one, and a LAN address is not secure — so this is reachable in
- * ordinary development, where "Cannot read properties of undefined (reading
- * 'digest')" says nothing about the cause or the remedy. */
-test('an insecure context is reported with its cause and its remedy', async () => {
+/* Web Crypto exists only in a secure context, so a dev server reached at a LAN
+ * address has no crypto.subtle. Verification must still work there: a household
+ * testing on a second device is exactly when it matters, and making the check
+ * optional would have been the wrong answer to a missing API. */
+test('the binary is verified with no crypto.subtle at all', async () => {
   const real = Object.getOwnPropertyDescriptor(globalThis, 'crypto');
+  const native = await sha256Hex(WASM);
   Object.defineProperty(globalThis, 'crypto', { value: {}, configurable: true });
   try {
-    assert.throws(() => assertWebCryptoAvailable(), InsecureContextError);
-    await assert.rejects(() => sha256Hex(new Uint8Array([1])), InsecureContextError);
-
-    const message = new InsecureContextError().message;
-    assert.match(message, /localhost/);
-    assert.match(message, /secure context/);
-    assert.match(message, /REQ-KERN-1/);
+    assert.equal(await sha256Hex(WASM), native, 'the fallback agrees with the platform');
+    assert.equal(await sha256Hex(WASM), PINNED.wasmSha256);
+    /* And the whole load path still works, digest check included. */
+    const kernel = await Kernel.load(WASM);
+    assert.equal(kernel.getInfo().version, '5.1.0');
   } finally {
     if (real !== undefined) Object.defineProperty(globalThis, 'crypto', real);
   }
 });
 
-test('the check passes where Web Crypto is present', () => {
-  assert.doesNotThrow(() => assertWebCryptoAvailable());
+test('a tampered binary is still refused with no crypto.subtle', async () => {
+  const real = Object.getOwnPropertyDescriptor(globalThis, 'crypto');
+  const tampered = new Uint8Array(WASM);
+  tampered[0] = (tampered[0] ?? 0) ^ 0xff;
+  Object.defineProperty(globalThis, 'crypto', { value: {}, configurable: true });
+  try {
+    await assert.rejects(() => Kernel.load(tampered), DigestMismatchError);
+  } finally {
+    if (real !== undefined) Object.defineProperty(globalThis, 'crypto', real);
+  }
 });
