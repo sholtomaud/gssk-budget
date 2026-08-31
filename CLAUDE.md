@@ -44,16 +44,21 @@ If you find yourself writing an `expense_category` archetype, stop — it was de
 
 Two version numbers, and they are different:
 
-- **Kernel release: GSSK v5.0.0** (2026-08-26). Pinned by tag *and* by WASM digest.
+- **Kernel release: GSSK v5.1.0**. Pinned in `package.json` by the `dist-v5.1.0` tag, and by
+  WASM digest recorded in `src/core/model/gssk.schema.json`'s `x-vendored-from` block. Never
+  track the `dist` branch: it is a moving ref with no version constraint, and a lockfile pins
+  the resolution without pinning the version.
 - **Model schema: v4.** `gssk.schema.json` declares `metadata.schema_version` as `enum: [2,3,4]`.
   There is no schema v5.
 
 **Node types** (`PrimitiveNodeType`): `storage`, `source`, `sink`, `constant`, `interaction`,
 `gain`, `loop_limited`, `exchange`, `switch`.
 
-**Edge logic** (`EdgeLogic`): `constant`, `linear`, `interaction`, `limit`, `threshold`, `ratio`.
+**Edge logic** (`EdgeLogic`): `constant`, `linear`, `interaction`, `limit`, `threshold`, `ratio`,
+`reversible`. The last is v5.1.0's addition — Odum's barb-less pathway, GSSK ADR 0007. Nothing
+in this application emits one yet.
 
-**v5.0.0 is strict** and both breaking changes bite us (REQ-KERN-2):
+**v5.0.0 was the strict release** and both its breaking changes still bite us (REQ-KERN-2):
 
 - an unrecognised model key is rejected, at every level;
 - an unrecognised node `type` is rejected instead of silently becoming a `storage`.

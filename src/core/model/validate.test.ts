@@ -216,9 +216,46 @@ test('assertValidModel throws naming the first offending path', () => {
 /* ---- the vendored schema itself ---- */
 
 test('the vendored schema records the GSSK release it came from', () => {
-  assert.equal(SCHEMA_PROVENANCE.release, 'v5.0.0');
+  assert.equal(SCHEMA_PROVENANCE.release, 'v5.1.0');
+  assert.equal(SCHEMA_PROVENANCE.dist_tag, 'dist-v5.1.0');
   assert.equal(SCHEMA_PROVENANCE.model_schema_version, 4);
   assert.match(SCHEMA_PROVENANCE.upstream_sha256, /^[0-9a-f]{64}$/);
+});
+
+/* REQ-KERN-1: the kernel is pinned by release tag AND by digest of the WASM
+ * binary, and the digest is recorded in every forecast record (REQ-DET-1) so a
+ * kernel upgrade is visible in the provenance of every number it produced. */
+test('the pinned WASM digest is recorded alongside the schema', () => {
+  assert.match(SCHEMA_PROVENANCE.wasm_sha256, /^[0-9a-f]{64}$/);
+  assert.match(SCHEMA_PROVENANCE.dist_commit, /^[0-9a-f]{40}$/);
+});
+
+/* A kernel bump is a deliberate act, so what it changed is recorded rather than
+ * left to a reader to diff two releases. */
+test('the supersession names the release it replaced and what changed', () => {
+  assert.equal(SCHEMA_PROVENANCE.supersedes.release, 'v5.0.0');
+  assert.match(SCHEMA_PROVENANCE.supersedes.change, /reversible/);
+});
+
+/* The one behavioural difference between v5.0.0 and v5.1.0's schema. Pinned,
+ * because the v5.0.0 copy would have rejected this and our gate must not be
+ * stricter than the kernel it guards — that would reject a model GSSK accepts. */
+test('the reversible edge logic v5.1.0 added is accepted', () => {
+  const model = {
+    metadata: { schema_version: 4 },
+    nodes: [{ id: 'a', type: 'storage', value: 0 }, { id: 'b', type: 'storage', value: 0 }],
+    edges: [{ origin: 'a', target: 'b', logic: 'reversible', params: { k: 1 } }],
+  };
+  assert.deepEqual(validateModel(model).errors, []);
+});
+
+test('an edge logic no release has defined is still rejected', () => {
+  const model = {
+    metadata: { schema_version: 4 },
+    nodes: [{ id: 'a', type: 'storage', value: 0 }],
+    edges: [{ origin: 'a', target: 'a', logic: 'sigmoid' }],
+  };
+  assert.deepEqual(paths(validateModel(model)), ['/edges/0/logic']);
 });
 
 test('the vendored schema is the v4 model schema', () => {

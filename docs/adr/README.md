@@ -17,3 +17,4 @@ believed at the time, not a tidied version of it.
 | 5 | [Counterparty granularity: per merchant, with an unresolved node-budget consequence](0005-counterparty-granularity.md) | accepted |
 | 6 | [Amends ADR 4 — durable_asset stores the depreciable base, not the book value](0006-amends-adr-4.md) | accepted |
 | 7 | [The archetype boundary: what a template can hold, and what the model builder owes each instance](0007-the-archetype-boundary.md) | accepted |
+| 8 | [Kernel pinned to the dist-v5.1.0 tag, and the schema re-vendored from it](0008-kernel-pinned-to-the-dist-v5-1-0-tag-and-the-schema-re-vendo.md) | accepted |
