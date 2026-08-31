@@ -327,11 +327,24 @@ function rateFor(item: Item, edgeId: string, instance: string): number {
        * a debt counter, not a money holding. */
       return perDay(item.minimumPaymentMinor, item.paymentFrequency);
     case 'flow':
+    case 'payment':
+      /* A recurring amount every `periodDays`, expressed as a per-day rate.
+       * `payment` is transfer_expense's money-out edge — tax, a premium, a fee,
+       * or the founder's generic living costs. */
       return perDay(item.amountMinor, item.periodDays);
     case 'distribution':
       return item.yieldRate ?? 0;
-    default:
+    case 'depletion':
       return item.consumptionRate ?? 0;
+    default:
+      /* A silent fallback is how two zero-rate edges reached a running model
+       * and reported a balance that was income alone. An unrecognised wire is
+       * a builder that has not been taught about a new descriptor, which is a
+       * bug in this file, not a rate of zero. */
+      throw new Error(
+        `no rate is defined for wiring '${wire}' on a ${item.archetype}; ` +
+        `teach rateFor() about it rather than letting it default to zero.`,
+      );
   }
 }
 

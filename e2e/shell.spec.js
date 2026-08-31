@@ -58,3 +58,37 @@ test('loading the page makes no third-party request', async ({ page, baseURL }) 
   await page.waitForLoadState('networkidle');
   expect(foreign).toEqual([]);
 });
+
+/* The kernel actually runs, in a worker, against a digest-verified binary. */
+test('the founder forecast runs and reports a figure', async ({ page }) => {
+  const status = page.locator('budget-shell .status[data-state="ready"]');
+  await expect(status).toBeVisible({ timeout: 60000 });
+  await expect(status).toContainText(/The model expects a balance of \$[\d,]+ after 30 years/);
+
+  /* REQ-HON-1: "the model expects", never "you will have". */
+  await expect(page.locator('budget-shell')).not.toContainText('you will have');
+  /* REQ-HON-4: a cold-started figure is labelled where it is read. */
+  await expect(page.locator('budget-shell .caveat')).toContainText('Provisional');
+});
+
+test('the verified kernel digest is reported', async ({ page }) => {
+  await expect(page.locator('budget-shell .kernel'))
+    .toContainText(/GSSK 5\.1\.0, digest [0-9a-f]{12}… verified/, { timeout: 60000 });
+});
+
+test('the chart draws onto a canvas, with no charting library', async ({ page }) => {
+  /* The canvas exists from first render; it is only PAINTED once the forecast
+   * returns, so wait for the run to finish rather than for the element. */
+  await expect(page.locator('budget-shell .status[data-state="ready"]'))
+    .toBeVisible({ timeout: 60000 });
+  const canvas = page.locator('budget-shell trajectory-chart canvas');
+  await expect(canvas).toBeVisible();
+  /* Something was actually painted, rather than a blank canvas being present. */
+  const painted = await canvas.evaluate((el) => {
+    const ctx = el.getContext('2d');
+    const data = ctx.getImageData(0, 0, el.width, el.height).data;
+    for (let i = 3; i < data.length; i += 4) if (data[i] !== 0) return true;
+    return false;
+  });
+  expect(painted).toBe(true);
+});

@@ -6,28 +6,29 @@
   </p>
 </header>
 
-<nav class="routes" aria-label="Views"></nav>
-
 <main id="router-outlet">
-  <section class="placeholder">
-    <h2>Scaffold</h2>
-    <p>
-      The application shell is standing. No view is wired yet, so this panel is
-      what the route host shows until one is.
+  <section class="forecast">
+    <h2>Founder model</h2>
+    <p class="lede">
+      The model a household starts from: one account, one income stream, one
+      expense consumed on receipt. Thirty years at one-day steps.
     </p>
-    <p class="status">
-      <span class="built">Built</span> the model validation gate and the
-      archetype library.
-      <span class="pending">Not yet built</span> the kernel worker, the ledger,
-      or any forecast — so this page reports nothing about any household's
-      money, and nothing here is a number.
+
+    <trajectory-chart></trajectory-chart>
+
+    <p class="status" role="status">Loading the kernel…</p>
+
+    <!-- REQ-HON-1: "the model expects", never "you will have". REQ-HON-4:
+         a provisional or cold-started figure says so where it is read. -->
+    <p class="caveat">
+      <span class="provisional">Provisional.</span> These are the founder
+      defaults, not this household's figures, and nothing has been entered
+      against them yet. The line is what the model expects under those
+      assumptions — not a projection of anyone's money.
     </p>
   </section>
 </main>
 
 <footer class="colophon">
-  <p>
-    Local-first and offline. No backend exists.
-    <span class="kernel"></span>
-  </p>
+  <p>Local-first and offline. No backend exists. <span class="kernel"></span></p>
 </footer>
