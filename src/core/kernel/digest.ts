@@ -6,7 +6,29 @@
  * cached-stale binary, which would otherwise produce different numbers under
  * the same recorded provenance. */
 
+export class InsecureContextError extends Error {
+  constructor() {
+    super(
+      'crypto.subtle is unavailable, so the kernel binary cannot be verified against ' +
+      'its pinned digest. Web Crypto is exposed only in a secure context.\n\n' +
+      'In development, use the Local URL (http://localhost:5173) rather than the ' +
+      'Network URL Vite also prints — a LAN address is not a secure context. ' +
+      'In production the app is served over HTTPS, where this does not arise.\n\n' +
+      'Verification is not optional (REQ-KERN-1), so the forecast will not run ' +
+      'without it.',
+    );
+    this.name = 'InsecureContextError';
+  }
+}
+
+/* Checked before use rather than left to fail as "Cannot read properties of
+ * undefined (reading 'digest')", which says nothing about what to do. */
+export function assertWebCryptoAvailable(): void {
+  if (typeof globalThis.crypto?.subtle?.digest !== 'function') throw new InsecureContextError();
+}
+
 export async function sha256Hex(bytes: Uint8Array): Promise<string> {
+  assertWebCryptoAvailable();
   const view = new Uint8Array(bytes);
   const digest = await crypto.subtle.digest('SHA-256', view.buffer as ArrayBuffer);
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');

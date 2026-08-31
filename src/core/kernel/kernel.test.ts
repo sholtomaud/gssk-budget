@@ -7,7 +7,10 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 import { Kernel, PINNED, KernelAbortedError } from './kernel.ts';
-import { sha256Hex, assertPinnedDigest, DigestMismatchError } from './digest.ts';
+import {
+  sha256Hex, assertPinnedDigest, DigestMismatchError,
+  assertWebCryptoAvailable, InsecureContextError,
+} from './digest.ts';
 import { readF64, readU32 } from './views.ts';
 
 const WASM = new Uint8Array(readFileSync('node_modules/gssk/dist/gssk.wasm'));
@@ -185,4 +188,28 @@ test('a null pointer is refused rather than read', async () => {
   assert.deepEqual(readF64(module, 0, 0), [], 'an empty read needs no pointer');
   assert.equal(typeof readU32(module, 0), 'number');
   assert.ok(kernel.getInfo().version.length > 0);
+});
+
+/* Web Crypto exists only in a secure context. Vite prints a Network URL beside
+ * the Local one, and a LAN address is not secure — so this is reachable in
+ * ordinary development, where "Cannot read properties of undefined (reading
+ * 'digest')" says nothing about the cause or the remedy. */
+test('an insecure context is reported with its cause and its remedy', async () => {
+  const real = Object.getOwnPropertyDescriptor(globalThis, 'crypto');
+  Object.defineProperty(globalThis, 'crypto', { value: {}, configurable: true });
+  try {
+    assert.throws(() => assertWebCryptoAvailable(), InsecureContextError);
+    await assert.rejects(() => sha256Hex(new Uint8Array([1])), InsecureContextError);
+
+    const message = new InsecureContextError().message;
+    assert.match(message, /localhost/);
+    assert.match(message, /secure context/);
+    assert.match(message, /REQ-KERN-1/);
+  } finally {
+    if (real !== undefined) Object.defineProperty(globalThis, 'crypto', real);
+  }
+});
+
+test('the check passes where Web Crypto is present', () => {
+  assert.doesNotThrow(() => assertWebCryptoAvailable());
 });
