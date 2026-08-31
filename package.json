@@ -17,7 +17,7 @@
     "e2e": "npx playwright test"
   },
   "dependencies": {
-    "gssk": "github:sholtomaud/GSSK#dist"
+    "gssk": "github:sholtomaud/GSSK#dist-v5.1.0"
   },
   "devDependencies": {
     "@playwright/test": "1.62.1",

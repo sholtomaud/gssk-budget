@@ -34,11 +34,16 @@ export interface ValidationResult {
 export interface SchemaProvenance {
   repository: string;
   release: string;
-  release_date: string;
+  /** The dist tag actually installed, which is what package.json pins. */
+  dist_tag: string;
+  dist_commit: string;
   model_schema_version: number;
   retrieved: string;
   upstream_path: string;
   upstream_sha256: string;
+  /** REQ-KERN-1: the kernel is pinned by tag AND by digest of the WASM binary. */
+  wasm_sha256: string;
+  supersedes: { release: string; upstream_sha256: string; change: string };
   note: string;
 }
 
