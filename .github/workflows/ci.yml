@@ -54,7 +54,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version-file: .node-version
-      - run: npm install
+      - run: npm ci
       - run: npm run typecheck
 
   # REQ-APP-2's light-DOM contract needs a real browser to assert, so it cannot
@@ -67,7 +67,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version-file: .node-version
-      - run: npm install
+      - run: npm ci
       - run: npx playwright install chromium --with-deps
       - run: npm run e2e
 
@@ -79,5 +79,5 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version-file: .node-version
-      - run: npm install
+      - run: npm ci
       - run: npm run build

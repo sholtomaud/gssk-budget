@@ -1,16 +1,18 @@
-ARG NODE_VERSION=25
-FROM node:${NODE_VERSION}-slim
+# Playwright's official image: Chromium and its system libraries are already
+# installed, and so are git, ssh and ca-certificates — which `npm install` needs
+# to fetch the GSSK kernel, a git dependency. node:*-slim has none of them, and
+# npm reports their absence only as "an unknown git error".
+#
+# Keep this tag in step with the @playwright/test version in package-lock.json —
+# Playwright refuses to run against a browser build it did not ship with.
+FROM mcr.microsoft.com/playwright:v1.62.1-noble
 
 WORKDIR /app
 
-ENV NODE_ENV=development
-ENV CI=true
-ENV NODE_OPTIONS=--max-old-space-size=3072
+# Install dependencies at image-build time for a warm layer cache. The full
+# source is mounted at runtime, so only the package files are copied here.
+COPY package.json package-lock.json ./
+RUN npm ci --prefer-offline
 
-# Install Playwright system dependencies and Chromium browser
-RUN apt-get update && \
-    npx -y playwright@1.62.0 install chromium --with-deps && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-CMD ["bash"]
+# Default command — overridden per-target in the Makefile.
+CMD ["npm", "run", "dev", "--", "--host"]

@@ -66,6 +66,15 @@ export interface WiringDescriptor {
   note?: string;
 }
 
+/* A per-instance rate for a TEMPLATE edge. A template's params are shared by
+ * every instance of it, so the rate cannot live there; it goes in the model's
+ * snapshot.edge_k, keyed by the expanded edge id. `from` names the item-record
+ * field, and `as: 'reciprocal'` turns a life in days into a per-day rate. */
+export interface EdgeRateSource {
+  from: string;
+  as?: 'reciprocal';
+}
+
 export interface LibraryEntry {
   category: 'income' | 'expense' | 'asset' | 'liability';
   expenseShape?: 'purchase_to_stock' | 'purchase_consumed' | 'transfer' | 'stock_depletion';
@@ -79,6 +88,8 @@ export interface LibraryEntry {
   displayedValue?: string;
   realLegCarrier?: string;
   limitation?: string;
+  /** Template edge id -> where its per-instance rate comes from. */
+  edgeRates?: Record<string, EdgeRateSource>;
 }
 
 export interface Expansion { nodes: TemplateNode[]; edges: TemplateEdge[] }
